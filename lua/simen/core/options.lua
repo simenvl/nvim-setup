@@ -11,7 +11,7 @@ opt.expandtab = true
 opt.autoindent = true
 
 -- line wrapping
-opt.wrap = false
+opt.wrap = true
 
 -- search settings
 opt.ignorecase = true
@@ -20,7 +20,7 @@ opt.smartcase = true
 -- cursor line
 opt.cursorline = true
 
--- appereance 
+-- appereance
 opt.termguicolors = true
 opt.background = "dark"
 opt.signcolumn = "yes"
@@ -36,4 +36,3 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.iskeyword:append("-")
-
