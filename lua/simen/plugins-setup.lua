@@ -34,7 +34,7 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
 	-- Colorscheme
-	use("Mofiqul/dracula.nvim")
+	use({ "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" })
 
 	-- Tmux & split window managements
 	use("christoomey/vim-tmux-navigator")
@@ -103,6 +103,13 @@ return packer.startup(function(use)
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
 
+	-- markdown
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	})
 	if packer_bootstrap then
 		require("packer").sync()
 	end
