@@ -34,7 +34,7 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
 	-- Colorscheme
-	use({ "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" })
+	use("ayu-theme/ayu-vim")
 
 	-- Tmux & split window managements
 	use("christoomey/vim-tmux-navigator")
@@ -110,6 +110,7 @@ return packer.startup(function(use)
 			vim.fn["mkdp#util#install"]()
 		end,
 	})
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end
