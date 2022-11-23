@@ -52,4 +52,22 @@ keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git bra
 keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current changes per file with diff preview ["gs" for git status]
 
 -- lazygit
--- keymap.set("n", "<silent><leader>lg", ":Lazygit<cr>")
+keymap.set("n", "<leader>lg", ":Lazygit<cr>")
+
+-- toggleterm
+keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal<cr>") -- open terminal in vertical split
+keymap.set("t", "<leader>tt", [[<C-\><C-n>]]) -- close terminal in vertical split
+
+-- Naviagate buffers
+keymap.set("n", "<C-n>", ":bnext<CR>")
+keymap.set("n", "<C-p>", ":bprevious<CR>")
+keymap.set("n", "<leader>q", ":bdelete<CR>")
+
+-- Todo comments
+keymap.set("n", "<leader>tc", ":TodoTelescope<CR>")
+keymap.set("n", "]t", function()
+	require("todo-comments").jump_next()
+end, { desc = "Next todo comment" })
+keymap.set("n", "[t", function()
+	require("todo-comments").jump_prev()
+end, { desc = "Previous todo comment" })

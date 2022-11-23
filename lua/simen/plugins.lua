@@ -16,7 +16,7 @@ local packer_bootstrap = ensure_packer() -- true if packer was just installed
 vim.cmd([[ 
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins-setup.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -47,23 +47,49 @@ return packer.startup(function(use)
 	use("vim-scripts/ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
 
 	-- commenting with gc
-	use("numToStr/Comment.nvim")
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("plugins.comment")
+		end,
+	})
 
 	-- file explorer
-	use("nvim-tree/nvim-tree.lua")
+	use({
+		"nvim-tree/nvim-tree.lua",
+		config = function()
+			require("plugins.nvim-tree")
+		end,
+	})
 
 	-- vs-code like icons
 	use("nvim-tree/nvim-web-devicons")
 
 	-- statusline
-	use("nvim-lualine/lualine.nvim")
+	use({
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("plugins.lualine")
+		end,
+	})
 
 	-- fuzzy finding w/ telescope
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
-	use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
+	use({
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		config = function()
+			require("plugins.telescope")
+		end,
+	}) -- fuzzy finder
 
 	-- autocompletion
-	use("hrsh7th/nvim-cmp") -- completion plugin
+	use({
+		"hrsh7th/nvim-cmp",
+		config = function()
+			require("plugins.nvim-cmp")
+		end,
+	}) -- completion plugin
 	use("hrsh7th/cmp-buffer") -- source for text in buffer
 	use("hrsh7th/cmp-path") -- source for file system paths
 
@@ -73,18 +99,41 @@ return packer.startup(function(use)
 	use("rafamadriz/friendly-snippets") -- useful snippets
 
 	-- managing & installing lsp servers, linters & formatters
-	use("williamboman/mason.nvim") -- in charge of managing lsp servers, linters & formatters
+	use({
+		"williamboman/mason.nvim",
+		config = function()
+			require("plugins.lsp.mason")
+		end,
+	}) -- in charge of managing lsp servers, linters & formatters
 	use("williamboman/mason-lspconfig.nvim") -- bridges gap b/w mason & lspconfig
 
 	-- configuring lsp servers
-	use("neovim/nvim-lspconfig") -- easily configure language servers
+	use({
+		"neovim/nvim-lspconfig",
+		config = function()
+			require("plugins.lsp.lspconfig")
+		end,
+	}) -- easily configure language servers
+
 	use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
-	use({ "glepnir/lspsaga.nvim", branch = "main" }) -- enhanced lsp uis
+	use({
+		"glepnir/lspsaga.nvim",
+		branch = "main",
+		config = function()
+			require("plugins.lsp.lspsaga")
+		end,
+	}) -- enhanced lsp uis
+
 	use("jose-elias-alvarez/typescript.nvim") -- additional functionality for typescript server (e.g. rename file & update imports)
 	use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
 
 	-- formatting & linting
-	use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
+	use({
+		"jose-elias-alvarez/null-ls.nvim",
+		config = function()
+			require("plugins.lsp.null-ls")
+		end,
+	}) -- configure formatters & linters
 	use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
 
 	-- treesitter configuration
@@ -97,17 +146,109 @@ return packer.startup(function(use)
 	})
 
 	-- auto closing
-	use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
+	use({
+		"windwp/nvim-autopairs",
+		config = function()
+			require("plugins.autopairs")
+		end,
+	}) -- autoclose parens, brackets, quotes, etc...
 	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
 
 	-- git integration
-	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
+	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("plugins.gitsigns")
+		end,
+	}) -- show line modifications on left hand side
+
+	-- github copilot
+	use("github/copilot.vim")
 
 	-- markdown
 	use({
 		"iamcco/markdown-preview.nvim",
 		run = function()
 			vim.fn["mkdp#util#install"]()
+		end,
+	})
+
+	--terminal
+	use({
+		"akinsho/toggleterm.nvim",
+		tag = "*",
+		config = function()
+			require("plugins.toggleterm")
+		end,
+	})
+
+	use({
+		"akinsho/bufferline.nvim",
+		tag = "v3.*",
+		requires = "nvim-tree/nvim-web-devicons",
+		config = function()
+			require("plugins.bufferline")
+		end,
+	})
+
+	-- which-key
+	use({
+		"folke/which-key.nvim",
+	})
+
+	-- dashboard
+	use({
+		"goolord/alpha-nvim",
+		config = function()
+			require("plugins.alpha")
+		end,
+	})
+
+	-- gruvbox theme
+	use({ "ellisonleao/gruvbox.nvim" })
+
+	-- changing the way of how to use tabs on neovim
+	use("tiagovla/scope.nvim")
+
+	-- todo comments
+	use({
+		"folke/todo-comments.nvim",
+		requires = "nvim-lua/plenary.nvim",
+		config = function()
+			require("todo-comments").setup({
+				-- your configuration comes here
+				-- or leave it empty to use the default settings
+				-- refer to the configuration section below
+			})
+		end,
+	})
+
+	-- dressing
+	use({
+		"stevearc/dressing.nvim",
+		config = function()
+			require("plugins.dressing")
+		end,
+	})
+
+	-- colorizer
+	use({
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	})
+
+	-- matchup
+	use({
+		"andymass/vim-matchup",
+	})
+
+	-- notify
+	use({
+		"rcarriga/nvim-notify",
+		config = function()
+			require("plugins.notify")
 		end,
 	})
 
