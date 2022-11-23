@@ -194,6 +194,9 @@ return packer.startup(function(use)
 	-- which-key
 	use({
 		"folke/which-key.nvim",
+		config = function()
+			require("plugins.whichkey")
+		end,
 	})
 
 	-- dashboard
