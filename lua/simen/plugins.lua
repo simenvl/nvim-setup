@@ -255,6 +255,12 @@ return packer.startup(function(use)
 		end,
 	})
 
+	-- nvim-navic - statusline / winbar
+	use({
+		"SmiteshP/nvim-navic",
+		requires = "neovim/nvim-lspconfig",
+	})
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end
