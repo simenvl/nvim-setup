@@ -37,7 +37,7 @@ local function getGreeting(name)
 	return greetingsTable[greetingIndex] .. ", " .. name
 end
 
-local userName = "Artur"
+local userName = "Simen"
 local greeting = getGreeting(userName)
 
 local greetHeading = {
