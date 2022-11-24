@@ -1,9 +1,8 @@
 # Nvim-setup
 
-<img width="1667" alt="Screenshot 2022-11-23 at 21 53 36" src="https://user-images.githubusercontent.com/24235164/203646524-87ae8282-cf4f-42b4-ba8a-4ac060ac8d6f.png">
+![Screenshot 2022-11-24 at 11 43 40](https://user-images.githubusercontent.com/24235164/203764640-637801b5-4d7d-4687-b612-8812a0c85840.png)
 
-<img width="1667" alt="Screenshot 2022-11-23 at 22 12 49" src="https://user-images.githubusercontent.com/24235164/203647024-8ef9c201-8d8f-4c00-b124-44a87b6af2ed.png">
-
+![Screenshot 2022-11-24 at 11 45 08](https://user-images.githubusercontent.com/24235164/203764840-13e71adc-d3cc-4b73-ad71-c8871f53a215.png)
 
 _Heavily_ influensed by:
   - https://github.com/arturgoms/nvim
