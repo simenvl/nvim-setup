@@ -34,7 +34,9 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
 	-- Colorscheme
-	use("ayu-theme/ayu-vim")
+	use("folke/tokyonight.nvim")
+	-- use({ "ellisonleao/gruvbox.nvim" })
+	-- use({ "Shatur/neovim-ayu" })
 
 	-- Tmux & split window managements
 	use("christoomey/vim-tmux-navigator")
@@ -65,6 +67,20 @@ return packer.startup(function(use)
 	-- vs-code like icons
 	use("nvim-tree/nvim-web-devicons")
 
+	-- treesitter configuration
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		commit = "9bfaf62e42bdcd042df1230e9188487e62a112c0",
+		run = function()
+			require("plugins.treesitter")
+			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+			ts_update()
+		end,
+	})
+	use("JoosepAlviste/nvim-ts-context-commentstring")
+	use("p00f/nvim-ts-rainbow")
+	use("nvim-treesitter/playground")
+
 	-- statusline
 	use({
 		"nvim-lualine/lualine.nvim",
@@ -82,6 +98,8 @@ return packer.startup(function(use)
 			require("plugins.telescope")
 		end,
 	}) -- fuzzy finder
+
+	use({ "nvim-telescope/telescope-file-browser.nvim" })
 
 	-- autocompletion
 	use({
@@ -135,15 +153,6 @@ return packer.startup(function(use)
 		end,
 	}) -- configure formatters & linters
 	use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
-
-	-- treesitter configuration
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = function()
-			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-			ts_update()
-		end,
-	})
 
 	-- auto closing
 	use({
@@ -207,9 +216,6 @@ return packer.startup(function(use)
 		end,
 	})
 
-	-- gruvbox theme
-	use({ "ellisonleao/gruvbox.nvim" })
-
 	-- changing the way of how to use tabs on neovim
 	use("tiagovla/scope.nvim")
 
@@ -238,13 +244,16 @@ return packer.startup(function(use)
 	use({
 		"norcalli/nvim-colorizer.lua",
 		config = function()
-			require("colorizer").setup()
+			require("plugins.colorizer")
 		end,
 	})
 
 	-- matchup
 	use({
 		"andymass/vim-matchup",
+		config = function()
+			require("plugins.matchup")
+		end,
 	})
 
 	-- notify
@@ -253,12 +262,6 @@ return packer.startup(function(use)
 		config = function()
 			require("plugins.notify")
 		end,
-	})
-
-	-- nvim-navic - statusline / winbar
-	use({
-		"SmiteshP/nvim-navic",
-		requires = "neovim/nvim-lspconfig",
 	})
 
 	if packer_bootstrap then

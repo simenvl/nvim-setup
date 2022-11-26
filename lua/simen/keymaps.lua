@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 
 local keymap = vim.keymap
+local opts = { noremap = true, silent = true }
 
 ---------------------
 -- General Keymaps
@@ -71,3 +72,15 @@ end, { desc = "Next todo comment" })
 keymap.set("n", "[t", function()
 	require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
+
+-- Normal-mode commands
+vim.keymap.set("n", "<M-j>", ":MoveLine(1)<CR>", opts)
+vim.keymap.set("n", "<M-k>", ":MoveLine(-1)<CR>", opts)
+vim.keymap.set("n", "<M-h>", ":MoveHChar(-1)<CR>", opts)
+vim.keymap.set("n", "<M-l>", ":MoveHChar(1)<CR>", opts)
+
+-- Visual-mode commands
+vim.keymap.set("v", "<M-j>", ":MoveBlock(1)<CR>", opts)
+vim.keymap.set("v", "<M-k>", ":MoveBlock(-1)<CR>", opts)
+vim.keymap.set("v", "<M-h>", ":MoveHBlock(-1)<CR>", opts)
+vim.keymap.set("v", "<M-l>", ":MoveHBlock(1)<CR>", opts)

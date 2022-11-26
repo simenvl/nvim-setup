@@ -39,3 +39,9 @@ opt.iskeyword:append("-")
 
 -- undo file
 opt.undofile = true
+
+-- highlight false
+opt.hlsearch = false
+
+opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
+opt.mouse = "a" -- allow the mouse to be used in neovim
