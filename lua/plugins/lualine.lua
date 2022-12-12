@@ -4,21 +4,25 @@ if not status then
 	return
 end
 
--- -- custom config to lualine theme
--- local custom_gruvbox = require("lualine.themes.gruvbox")
--- local colors = require("simen.colors.gruvbox_colors")
---
--- custom_gruvbox.normal.a.bg = colors.accent
--- custom_gruvbox.insert.a.bg = colors.keyword
--- custom_gruvbox.visual.a.bg = colors.string
--- custom_gruvbox.command = {
--- 	a = { gui = "bold", fg = colors.bg, bg = colors.warning },
--- }
-
 lualine.setup({
 	options = {
-		theme = "tokyonight",
+		globalstatus = true,
+		icons_enabled = true,
+		theme = "auto",
 		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
+		disabled_filetypes = { -- Filetypes to disable lualine for.
+			statusline = {}, -- only ignores the ft for statusline.
+			winbar = {}, -- only ignores the ft for winbar.
+		},
 	},
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { { "filetype", icon_only = true }, "filename" },
+		lualine_c = { { "branch", icon = { "", align = "left" } }, "diff", "diagnostics" },
+		lualine_x = { "searchcount", "encoding", "fileformat", "diagnostics" },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+	extensions = { "nvim-tree", "fzf", "toggleterm" },
 })

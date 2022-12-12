@@ -19,29 +19,22 @@ end
 -- load vs-code like snippets from plugins (e.g. friendly-snippets)
 require("luasnip/loaders/from_vscode").lazy_load()
 
-vim.opt.completeopt = "menu,menuone,noselect"
-
-local function border(hl_name)
-	return {
-		{ "╭", hl_name },
-		{ "─", hl_name },
-		{ "╮", hl_name },
-		{ "│", hl_name },
-		{ "╯", hl_name },
-		{ "─", hl_name },
-		{ "╰", hl_name },
-		{ "│", hl_name },
-	}
+local check_backspace = function()
+	local col = vim.fn.col(".") - 1
+	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
+
+-- vim.opt.completeopt = "menu,menuone,noselect"
 
 local cmp_window = require("cmp.utils.window")
+local compare = require("cmp.config.compare")
 
-cmp_window.info_ = cmp_window.info
-cmp_window.info = function(self)
-	local info = self:info_()
-	info.scrollable = false
-	return info
-end
+-- cmp_window.info_ = cmp_window.info
+-- cmp_window.info = function(self)
+-- 	local info = self:info_()
+-- 	info.scrollable = false
+-- 	return info
+-- end
 
 cmp.setup({
 	snippet = {
@@ -57,29 +50,80 @@ cmp.setup({
 		["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 		["<C-e>"] = cmp.mapping.abort(), -- close completion window
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
+
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expandable() then
+				luasnip.expand()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			elseif check_backspace() then
+				fallback()
+			else
+				fallback()
+			end
+		end, {
+			"i",
+			"s",
+		}),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, {
+			"i",
+			"s",
+		}),
 	}),
 	-- sources for autocompletion
-	sources = {
-		{ name = "luasnip" },
+	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
 		{ name = "buffer" },
 		{ name = "nvim_lua" },
 		{ name = "path" },
-	},
+	}),
 	-- configure lspkind for vs-code like icons
 	formatting = {
 		format = lspkind.cmp_format({
-			maxwidth = 50,
-			ellipsis_char = "...",
+			mode = "symbol_text",
 		}),
 	},
-	window = {
-		completion = {
-			border = border("CmpBorder"),
-			winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
-		},
-		documentation = {
-			border = border("CmpDocBorder"),
-		},
+	-- sorting = {
+	-- 	-- priority_weight = 2,
+	-- 	comparators = {
+	-- 		compare.offset,
+	-- 		compare.exact,
+	-- 		-- compare.scopes,
+	-- 		compare.score,
+	-- 		compare.recently_used,
+	-- 		compare.locality,
+	-- 		-- compare.kind,
+	-- 		compare.sort_text,
+	-- 		compare.length,
+	-- 		compare.order,
+	-- 	},
+	-- },
+	confirm_opts = {
+		behavior = cmp.ConfirmBehavior.Replace,
+		select = false,
 	},
+	experimental = {
+		ghost_text = true,
+	},
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{ name = "cmdline" },
+	}),
 })
