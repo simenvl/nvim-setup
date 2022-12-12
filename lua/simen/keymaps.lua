@@ -1,86 +1,80 @@
-vim.g.mapleader = " "
-
-local keymap = vim.keymap
-local opts = { noremap = true, silent = true }
+local keymap = vim.keymap.set
+local opts = { silent = true }
 
 ---------------------
 -- General Keymaps
 ---------------------
 
+--Remap space as leader key
+keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+
 -- use jk to exit insert mode
-keymap.set("i", "jk", "<ESC>")
+keymap("i", "jk", "<ESC>", opts)
 
 -- clear search highlights
-keymap.set("n", "<leader>nh", ":nohl<CR>")
+keymap("n", "<leader>nh", ":nohl<CR>", opts)
 
 -- delete single character without copying into register
-keymap.set("n", "x", '"_x')
+keymap("n", "x", '"_x')
 
 -- increment/decrement numbers
-keymap.set("n", "<leader>+", "<C-a>") -- increment
-keymap.set("n", "<leader>-", "<C-x>") -- decrement
+keymap("n", "<leader>+", "<C-a>", opts) -- increment
+keymap("n", "<leader>-", "<C-x>", opts) -- decrement
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
-keymap.set("n", "<leader>sx", ":close<CR>") -- close current split window
+keymap("n", "<leader>sv", "<C-w>v", opts) -- split window vertically
+keymap("n", "<leader>sh", "<C-w>s", opts) -- split window horizontally
+keymap("n", "<leader>se", "<C-w>=", opts) -- make split windows equal width & height
+keymap("n", "<leader>sx", ":close<CR>", opts) -- close current split window
 
-keymap.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
-keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
-keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
+keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
+keymap("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
+keymap("n", "<leader>tn", ":tabn<CR>", opts) --  go to next tab
+keymap("n", "<leader>tp", ":tabp<CR>", opts) --  go to previous tab
 
 -- Plugin keymaps
 
 -- Vim-maximizer
-keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")
+keymap("n", "<leader>sm", ":MaximizerToggle<CR>", opts)
 
 -- nvim-tree
-keymap.set("n", "<leader>e", ":NvimTreeToggle<Cr>")
+keymap("n", "<leader>e", ":NvimTreeFocus<Cr>", opts)
+keymap("n", "<leader>t", ":NvimTreeToggle<Cr>", opts)
 
 -- telescope
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts) -- find files within current working directory, respects .gitignore
+keymap("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", opts) -- find string in current working directory as you type
+keymap("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", opts) -- find string under cursor in current working directory
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts) -- list open buffers in current neovim instance
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts) -- list available help tags
 
 -- telescope git commands (not on youtube nvim video)
-keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-keymap.set("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>") -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git branches (use <cr> to checkout) ["gb" for git branch--[[ ] ]]
-keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current changes per file with diff preview ["gs" for git status]
+keymap("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", opts) -- list all git commits (use <cr> to checkout) ["gc" for git commits]
+keymap("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>", opts) -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
+keymap("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", opts) -- list git branches (use <cr> to checkout) ["gb" for git branch--[[ ] ]]
+keymap("n", "<leader>gs", "<cmd>Telescope git_status<cr>", opts) -- list current changes per file with diff preview ["gs" for git status]
 
 -- lazygit
-keymap.set("n", "<leader>lg", ":Lazygit<cr>")
-
--- toggleterm
-keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal<cr>") -- open terminal in vertical split
-keymap.set("t", "<leader>tt", [[<C-\><C-n>]]) -- close terminal in vertical split
+keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", { noremap = true, silent = true })
 
 -- Naviagate buffers
-keymap.set("n", "<C-n>", ":bnext<CR>")
-keymap.set("n", "<C-p>", ":bprevious<CR>")
-keymap.set("n", "<leader>q", ":bdelete<CR>")
+keymap("n", "<C-n>", ":bnext<CR>", opts)
+keymap("n", "<C-p>", ":bprevious<CR>", opts)
+keymap("n", "<leader>q", "<Cmd>Bdelete<CR>", { silent = true })
 
 -- Todo comments
-keymap.set("n", "<leader>tc", ":TodoTelescope<CR>")
-keymap.set("n", "]t", function()
+keymap("n", "<leader>tc", ":TodoTelescope<CR>", opts)
+keymap("n", "]t", function()
 	require("todo-comments").jump_next()
 end, { desc = "Next todo comment" })
-keymap.set("n", "[t", function()
+keymap("n", "[t", function()
 	require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
 
--- Normal-mode commands
-vim.keymap.set("n", "<M-j>", ":MoveLine(1)<CR>", opts)
-vim.keymap.set("n", "<M-k>", ":MoveLine(-1)<CR>", opts)
-vim.keymap.set("n", "<M-h>", ":MoveHChar(-1)<CR>", opts)
-vim.keymap.set("n", "<M-l>", ":MoveHChar(1)<CR>", opts)
+-- Move text up and down
+keymap("v", "<A-j>", ":m .+1<CR>==", opts)
+keymap("v", "<A-k>", ":m .-2<CR>==", opts)
 
--- Visual-mode commands
-vim.keymap.set("v", "<M-j>", ":MoveBlock(1)<CR>", opts)
-vim.keymap.set("v", "<M-k>", ":MoveBlock(-1)<CR>", opts)
-vim.keymap.set("v", "<M-h>", ":MoveHBlock(-1)<CR>", opts)
-vim.keymap.set("v", "<M-l>", ":MoveHBlock(1)<CR>", opts)
+keymap("n", "<A-k>", ":m .-2<CR>==gi", opts)
+keymap("n", "<A-j>", ":m .+1<CR>==gi", opts)
