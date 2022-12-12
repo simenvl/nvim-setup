@@ -150,12 +150,12 @@ packer.startup(function(use)
 	use({ "williamboman/mason-lspconfig.nvim" })
 
 	-- Config for LSP Servers
-	-- use({
-	-- 	"glepnir/lspsaga.nvim",
-	-- 	config = function()
-	-- 		require("plugins.lsp.lspsaga")
-	-- 	end,
-	-- })
+	use({
+		"glepnir/lspsaga.nvim",
+		config = function()
+			require("plugins.lsp.lspsaga")
+		end,
+	})
 	use({ "onsails/lspkind.nvim" })
 	use({
 		"neovim/nvim-lspconfig",
@@ -295,6 +295,13 @@ packer.startup(function(use)
 		"rmagatti/auto-session",
 		config = function()
 			require("plugins.auto-session")
+		end,
+	})
+
+	use({
+		"klen/nvim-test",
+		config = function()
+			require("plugins.nvim-test")
 		end,
 	})
 

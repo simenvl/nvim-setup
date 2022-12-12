@@ -78,3 +78,6 @@ keymap("v", "<A-k>", ":m .-2<CR>==", opts)
 
 keymap("n", "<A-k>", ":m .-2<CR>==gi", opts)
 keymap("n", "<A-j>", ":m .+1<CR>==gi", opts)
+
+-- nvim-test
+keymap("n", "<leader>jf", "<cmd>TestFile<cr>", opts) -- jest - test file
