@@ -5,20 +5,25 @@ if not status_cmp_ok then
 	return
 end
 
+local function lspSymbol(name, icon)
+	local hl = "DiagnosticSign" .. name
+	vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+end
+
+lspSymbol("Error", "")
+lspSymbol("Info", "")
+lspSymbol("Hint", "")
+lspSymbol("Warn", "")
+
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 M.setup = function()
-	local signs = { Error = "", Warn = "", Hint = "", Info = "" }
-
-	for type, icon in pairs(signs) do
-		local hl = "DiagnosticSign" .. type
-		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-	end
-
 	local config = {
-		virtual_text = true, -- disable virtual text
+		virtual_text = {
+			prefix = "",
+		},
 		signs = true,
 		update_in_insert = true,
 		underline = true,
