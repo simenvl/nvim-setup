@@ -26,8 +26,8 @@ end
 
 -- vim.opt.completeopt = "menu,menuone,noselect"
 
-local cmp_window = require("cmp.utils.window")
-local compare = require("cmp.config.compare")
+-- local cmp_window = require("cmp.utils.window")
+-- local compare = require("cmp.config.compare")
 
 -- cmp_window.info_ = cmp_window.info
 -- cmp_window.info = function(self)
