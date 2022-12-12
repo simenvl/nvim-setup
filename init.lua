@@ -1,4 +1,5 @@
 require("simen.options")
 require("simen.keymaps")
-require("simen.colorscheme")
 require("simen.plugins")
+require("simen.colorscheme")
+require("simen.autocmds")
