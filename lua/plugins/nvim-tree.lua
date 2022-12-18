@@ -19,8 +19,8 @@ nvimtree.setup({
 		icons = {
 			webdev_colors = true,
 			glyphs = {
-				default = "",
-				symlink = "",
+				-- default = "",
+				-- symlink = "",
 				folder = {
 					arrow_open = "",
 					arrow_closed = "",
