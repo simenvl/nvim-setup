@@ -39,18 +39,8 @@ packer.init({
 packer.startup(function(use)
 	-- Plugin manager
 	use({ "wbthomason/packer.nvim" })
-
 	use({ "nvim-lua/plenary.nvim" })
-
 	use({ "catppuccin/nvim", as = "catppuccin" })
-
-	-- Whichkey
-	use({
-		"folke/which-key.nvim",
-		config = function()
-			require("plugins.whichkey")
-		end,
-	})
 
 	-- Tabs
 	use({
@@ -60,13 +50,8 @@ packer.startup(function(use)
 		end,
 	})
 	use({ "moll/vim-bbye" })
-	use({
-		"tiagovla/scope.nvim",
-		config = function()
-			require("scope").setup()
-		end,
-	})
 
+	-- Explorer
 	use({
 		"nvim-tree/nvim-tree.lua",
 		requires = { "kyazdani42/nvim-web-devicons" },
@@ -114,6 +99,7 @@ packer.startup(function(use)
 		end,
 	})
 	use({ "ibhagwan/fzf-lua" })
+
 	-- Dashboard Init
 	use({
 		"goolord/alpha-nvim",
@@ -128,6 +114,7 @@ packer.startup(function(use)
 	use({ "hrsh7th/cmp-cmdline" }) -- cmdline completions
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-nvim-lua" })
+	use({ "saadparwaiz1/cmp_luasnip" })
 	use({
 		"hrsh7th/nvim-cmp",
 		config = function()
@@ -136,16 +123,12 @@ packer.startup(function(use)
 	})
 
 	-- Shippets
-	use({ "L3MON4D3/LuaSnip" })
-	use({ "saadparwaiz1/cmp_luasnip" })
+	use({ "L3MON4D3/LuaSnip", commit = "8f8d493e7836f2697df878ef9c128337cbf2bb84" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" })
 
 	-- Manage and Install LSP servers
 	use({
 		"williamboman/mason.nvim",
-		config = function()
-			require("plugins.lsp.mason")
-		end,
 	})
 	use({ "williamboman/mason-lspconfig.nvim" })
 
@@ -157,21 +140,13 @@ packer.startup(function(use)
 		end,
 	})
 	use({ "onsails/lspkind.nvim" })
-	use({
-		"neovim/nvim-lspconfig",
-		-- config = function()
-		-- 	require("plugins.lsp.lspconfig")
-		-- end,
-	})
+	use({ "neovim/nvim-lspconfig" })
 	use({ "jose-elias-alvarez/typescript.nvim" }) -- additional functionality for typescript server (e.g. rename file & update imports)
 
 	-- Formatting
 	use({ "jayp0521/mason-null-ls.nvim" })
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
-		config = function()
-			require("plugins.lsp.null-ls")
-		end,
 	})
 
 	-- Treesitter
@@ -232,14 +207,6 @@ packer.startup(function(use)
 		end,
 	})
 
-	-- Todo Comment TODO: Check the keybinds
-	use({
-		"folke/todo-comments.nvim",
-		config = function()
-			require("todo-comments").setup()
-		end,
-	})
-
 	-- toggle Term TODO: Check the keybinds
 	use({
 		"akinsho/toggleterm.nvim",
@@ -256,14 +223,6 @@ packer.startup(function(use)
 		end,
 	})
 
-	-- Diffview
-	-- use({
-	-- 	"sindrets/diffview.nvim",
-	-- 	config = function()
-	-- 		require("diffview").setup()
-	-- 	end,
-	-- })
-
 	-- Tmux
 	use({
 		"aserowy/tmux.nvim",
@@ -272,6 +231,7 @@ packer.startup(function(use)
 		end,
 	})
 
+	-- Statusline
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
@@ -291,17 +251,34 @@ packer.startup(function(use)
 		end,
 	})
 
-	use({
-		"rmagatti/auto-session",
-		config = function()
-			require("plugins.auto-session")
-		end,
-	})
-
+	-- Testing
 	use({
 		"klen/nvim-test",
 		config = function()
 			require("plugins.nvim-test")
+		end,
+	})
+
+	-- Perfomance
+	use({ "nathom/filetype.nvim" })
+
+	-- DAP
+	use({
+		"mfussenegger/nvim-dap",
+		config = function()
+			require("plugins.dap")
+		end,
+	})
+	use({
+		"rcarriga/nvim-dap-ui",
+		config = function()
+			require("plugins.dap")
+		end,
+	})
+	use({
+		"ravenxrz/DAPInstall.nvim",
+		config = function()
+			require("plugins.dap")
 		end,
 	})
 
