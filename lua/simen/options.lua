@@ -20,7 +20,7 @@ local options = {
 	termguicolors = true, -- set term gui colors (most terminals support this)
 	timeoutlen = 1000, -- time to wait for a mapped sequence to complete (in milliseconds)
 	undofile = true, -- enable persistent undo
-	updatetime = 300, -- faster completion (4000ms default)
+	-- updatetime = 300, -- faster completion (4000ms default)
 	writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 	expandtab = true, -- convert tabs to spaces
 	shiftwidth = 2, -- the number of spaces inserted for each indentation
@@ -40,6 +40,34 @@ local options = {
 
 for k, v in pairs(options) do
 	vim.opt[k] = v
+end
+
+-- Disable some builtin vim plugins
+local g = vim.g
+
+local disabled_built_ins = {
+	"2html_plugin",
+	"getscript",
+	"getscriptPlugin",
+	"gzip",
+	"logipat",
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	"matchit",
+	"matchparen",
+	"tar",
+	"tarPlugin",
+	"rrhelper",
+	"vimball",
+	"vimballPlugin",
+	"zip",
+	"zipPlugin",
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+	g["loaded_" .. plugin] = 1
 end
 
 vim.opt.fillchars.eob = " " -- show empty lines at the end of a buffer as ` ` {default `~`}
