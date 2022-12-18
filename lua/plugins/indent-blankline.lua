@@ -4,7 +4,15 @@ if not setup then
 end
 
 indent_blankline.setup({
-	space_char_blankline = " ",
+	char = "▏",
+	show_trailing_blankline_indent = false,
+	show_first_indent_level = true,
+	use_treesitter = true,
 	show_current_context = true,
-	show_current_context_start = true,
+	buftype_exclude = { "terminal", "nofile" },
+	filetype_exclude = {
+		"help",
+		"packer",
+		"NvimTree",
+	},
 })
