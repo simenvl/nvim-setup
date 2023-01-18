@@ -75,6 +75,8 @@ end, { desc = "Previous todo comment" })
 -- Move text up and down
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
+keymap("n", "<A-j", ":m .+1<CR>==", opts)
+keymap("n", "<A-k>", ":m .-2<CR>==", opts)
 
 -- nvim-test
 keymap("n", "<leader>jf", "<cmd>TestFile<cr>", opts) -- jest - test file
@@ -89,3 +91,9 @@ keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
 keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
 keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
+
+-- Neogen
+keymap("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", opts)
+
+-- copilot
+-- keymap("i", "<C-f", "copilot#Accept<CR>", opts)

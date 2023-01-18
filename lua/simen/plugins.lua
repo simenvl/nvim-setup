@@ -40,7 +40,15 @@ packer.startup(function(use)
 	-- Plugin manager
 	use({ "wbthomason/packer.nvim" })
 	use({ "nvim-lua/plenary.nvim" })
-	use({ "catppuccin/nvim", as = "catppuccin" })
+	-- use({ "catppuccin/nvim", as = "catppuccin" })
+	-- use({ "ellisonleao/gruvbox.nvim" })
+	use({
+		"rose-pine/neovim",
+		as = "rose-pine",
+		config = function()
+			require("simen.colorscheme")
+		end,
+	})
 
 	-- Tabs
 	use({
@@ -133,12 +141,12 @@ packer.startup(function(use)
 	use({ "williamboman/mason-lspconfig.nvim" })
 
 	-- Config for LSP Servers
-	use({
-		"glepnir/lspsaga.nvim",
-		config = function()
-			require("plugins.lsp.lspsaga")
-		end,
-	})
+	-- use({
+	-- 	"glepnir/lspsaga.nvim",
+	-- 	-- config = function()
+	-- 	-- 	require("plugins.lsp.lspsaga")
+	-- 	-- end,
+	-- })
 	use({ "onsails/lspkind.nvim" })
 	use({ "neovim/nvim-lspconfig" })
 	use({ "jose-elias-alvarez/typescript.nvim" }) -- additional functionality for typescript server (e.g. rename file & update imports)
@@ -154,6 +162,10 @@ packer.startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
 			require("plugins.treesitter")
+		end,
+		run = function()
+			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+			ts_update()
 		end,
 	})
 	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
@@ -253,10 +265,22 @@ packer.startup(function(use)
 
 	-- Testing
 	use({
-		"klen/nvim-test",
+		"nvim-neotest/neotest",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"haydenmeade/neotest-jest",
+			"marilari88/neotest-vitest",
+		},
 		config = function()
-			require("plugins.nvim-test")
+			require("plugins.neotest")
 		end,
+	})
+	use("folke/neodev.nvim", {
+		require("neodev").setup({
+			library = { plugins = { "neotest" }, types = true },
+		}),
 	})
 
 	-- Perfomance
@@ -280,6 +304,17 @@ packer.startup(function(use)
 		config = function()
 			require("plugins.dap")
 		end,
+	})
+
+	-- JSDoc
+	use({
+		"danymat/neogen",
+		config = function()
+			require("neogen").setup({})
+		end,
+		requires = "nvim-treesitter/nvim-treesitter",
+		-- Uncomment next line if you want to follow only stable versions
+		-- tag = "*"
 	})
 
 	if install_plugins then
