@@ -11,13 +11,11 @@ if not luasnip_status then
 	return
 end
 
-print("cmp loaded")
-
 -- import lspkind plugin safely
--- local lspkind_status, lspkind = pcall(require, "lspkind")
--- if not lspkind_status then
--- 	return
--- end
+local lspkind_status, lspkind = pcall(require, "lspkind")
+if not lspkind_status then
+	return
+end
 
 -- load vs-code like snippets from plugins (e.g. friendly-snippets)
 require("luasnip/loaders/from_vscode").lazy_load()
@@ -27,7 +25,7 @@ local check_backspace = function()
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
 
--- vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.completeopt = "menu,menuone,noselect"
 --
 -- local cmp_window = require("cmp.utils.window")
 --
@@ -37,34 +35,6 @@ end
 -- 	info.scrollable = false
 -- 	return info
 -- end
-
-local kind_icons = {
-	Text = "",
-	Method = "",
-	Function = "",
-	Constructor = "",
-	Field = "",
-	Variable = "",
-	Class = "",
-	Interface = "",
-	Module = "",
-	Property = "",
-	Unit = "",
-	Value = "",
-	Enum = "",
-	Keyword = "",
-	Snippet = "",
-	Color = "",
-	File = "",
-	Reference = "",
-	Folder = "",
-	EnumMember = "",
-	Constant = "",
-	Struct = "",
-	Event = "",
-	Operator = "",
-	TypeParameter = "",
-}
 
 cmp.setup({
 	snippet = {
@@ -130,24 +100,14 @@ cmp.setup({
 	}),
 	-- configure lspkind for vs-code like icons
 	formatting = {
-		format = function(entry, vim_item)
-			vim_item.kind = kind_icons[vim_item.kind]
-			vim_item.menu = ({
-				nvim_lsp = "",
-				nvim_lua = "",
-				luasnip = "",
-				buffer = "",
-				path = "",
-			})[entry.source.name]
-			return vim_item
-		end,
+		format = lspkind.cmp_format({ with_text = false, maxwidth = 50 }),
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
 		select = false,
 	},
 	experimental = {
-		ghost_text = true,
+		ghost_text = false,
 	},
 })
 
