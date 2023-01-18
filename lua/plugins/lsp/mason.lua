@@ -48,10 +48,10 @@ if not lspconfig_status_ok then
 end
 
 -- import typescript plugin safely
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-	return
-end
+-- local typescript_setup, typescript = pcall(require, "typescript")
+-- if not typescript_setup then
+-- 	return
+-- end
 
 local opts = {}
 
@@ -71,7 +71,7 @@ for _, server in pairs(servers) do
 	lspconfig[server].setup(opts)
 
 	-- configure typescript server with plugin
-	typescript.setup({
-		server = opts,
-	})
+	-- typescript.setup({
+	-- 	server = opts,
+	-- })
 end
