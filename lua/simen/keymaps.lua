@@ -27,6 +27,10 @@ keymap("n", "<leader>sv", "<C-w>v", opts) -- split window vertically
 keymap("n", "<leader>sh", "<C-w>s", opts) -- split window horizontally
 keymap("n", "<leader>se", "<C-w>=", opts) -- make split windows equal width & height
 keymap("n", "<leader>sx", ":close<CR>", opts) -- close current split window
+keymap("n", "<C-h>", "<C-\\><C-n><C-w>h")
+keymap("n", "<C-j>", "<C-\\><C-n><C-w>j")
+keymap("n", "<C-k>", "<C-\\><C-n><C-w>k")
+keymap("n", "<C-l>", "<C-\\><C-n><C-w>l")
 
 keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
 keymap("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
