@@ -3,19 +3,20 @@ return {
 	{ "github/copilot.vim", lazy = false },
 	{ "NvChad/nvim-colorizer.lua", ft = { "css" } },
 	"windwp/nvim-ts-autotag",
+	"kshenoy/vim-signature",
+	"JoosepAlviste/nvim-ts-context-commentstring",
+	"nvim-telescope/telescope-project.nvim",
+	"moll/vim-bbye",
+	"kylechui/nvim-surround",
+	"aserowy/tmux.nvim",
+	"nvim-telescope/telescope-file-browser.nvim",
 
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		event = "VeryLazy",
 	},
-	"nvim-telescope/telescope-project.nvim",
-	"moll/vim-bbye",
-	"kylechui/nvim-surround",
-	"aserowy/tmux.nvim",
-	"nvim-telescope/telescope-file-browser.nvim",
 	{ "danymat/neogen", requires = "nvim-treesitter/nvim-treesitter" },
-
 	{
 		"windwp/nvim-autopairs",
 		config = function()

@@ -42,34 +42,6 @@ for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
--- Disable some builtin vim plugins
--- local g = vim.g
---
--- local disabled_built_ins = {
--- 	"2html_plugin",
--- 	"getscript",
--- 	"getscriptPlugin",
--- 	"gzip",
--- 	"logipat",
--- 	"netrw",
--- 	"netrwPlugin",
--- 	"netrwSettings",
--- 	"netrwFileHandlers",
--- 	"matchit",
--- 	"matchparen",
--- 	"tar",
--- 	"tarPlugin",
--- 	"rrhelper",
--- 	"vimball",
--- 	"vimballPlugin",
--- 	"zip",
--- 	"zipPlugin",
--- }
---
--- for _, plugin in pairs(disabled_built_ins) do
--- 	g["loaded_" .. plugin] = 1
--- end
-
 vim.opt.fillchars.eob = " " -- show empty lines at the end of a buffer as ` ` {default `~`}
 vim.opt.shortmess:append("c") -- hide all the completion messages, e.g. "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found"
 vim.opt.whichwrap:append("<,>,[,],h,l") -- keys allowed to move to the previous/next line when the beginning/end of line is reached
