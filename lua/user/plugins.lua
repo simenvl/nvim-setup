@@ -40,7 +40,7 @@ packer.startup(function(use)
 	-- Plugin manager
 	use({ "wbthomason/packer.nvim" })
 	use({ "nvim-lua/plenary.nvim" })
-	-- use({ "catppuccin/nvim", as = "catppuccin" })
+	use({ "catppuccin/nvim", as = "catppuccin" })
 	-- use({ "ellisonleao/gruvbox.nvim" })
 	use({
 		"rose-pine/neovim",
@@ -276,11 +276,6 @@ packer.startup(function(use)
 		config = function()
 			require("plugins.neotest")
 		end,
-	})
-	use("folke/neodev.nvim", {
-		require("neodev").setup({
-			library = { plugins = { "neotest" }, types = true },
-		}),
 	})
 
 	-- Perfomance
