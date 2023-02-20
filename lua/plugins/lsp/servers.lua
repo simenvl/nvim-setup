@@ -2,18 +2,10 @@ local M = {}
 
 local servers = {
 	pyright = {
-		settings = {
-			python = {
-				analysis = {
-					typeCheckingMode = "off",
-					autoSearchPaths = true,
-					useLibraryCodeForTypes = true,
-					diagnosticMode = "workspace",
-				},
-			},
-		},
+		single_file_support = false,
 	},
 	ansiblels = {},
+	elixirls = {},
 	astro = {},
 	bashls = {},
 	clangd = {},
@@ -24,16 +16,10 @@ local servers = {
 	eslint = {},
 	html = {},
 	jsonls = {
-		on_new_config = function(new_config)
-			new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-			vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-		end,
+		filetypes = { "json", "jsonc" },
 		settings = {
 			json = {
-				format = {
-					enable = true,
-				},
-				validate = { enable = true },
+				schemas = require("schemastore").json.schemas(),
 			},
 		},
 	},
@@ -50,7 +36,7 @@ local servers = {
 		},
 	},
 	yamlls = {},
-	sumneko_lua = {
+	lua_ls = {
 		settings = { -- custom settings for lua
 			Lua = {
 				-- make the language server recognize "vim" global

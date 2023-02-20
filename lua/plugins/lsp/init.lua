@@ -5,16 +5,16 @@ return {
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true },
 			{ "folke/neodev.nvim", config = true },
-			{
-				"j-hui/fidget.nvim",
-				config = function()
-					require("fidget").setup({
-						window = {
-							blend = 0, -- &winblend for the window
-						},
-					})
-				end,
-			},
+			-- {
+			-- 	"j-hui/fidget.nvim",
+			-- 	config = function()
+			-- 		require("fidget").setup({
+			-- 			window = {
+			-- 				blend = 0, -- &winblend for the window
+			-- 			},
+			-- 		})
+			-- 	end,
+			-- },
 			{ "smjonas/inc-rename.nvim", config = true },
 			"simrat39/rust-tools.nvim",
 			"rust-lang/rust.vim",
@@ -22,6 +22,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"b0o/schemastore.nvim",
 		},
 		config = function(plugin)
 			require("plugins.lsp.servers").setup(plugin)
@@ -34,6 +35,10 @@ return {
 		ensure_installed = {
 			"stylua",
 			"ruff",
+			"prettier",
+			"black",
+			"flake8",
+			"prettierd",
 		},
 		config = function(plugin)
 			require("mason").setup()
@@ -57,11 +62,16 @@ return {
 					nls.builtins.formatting.stylua,
 					nls.builtins.formatting.prettierd,
 					nls.builtins.formatting.rustywind,
+					nls.builtins.formatting.black,
+					nls.builtins.formatting.mix,
 
 					nls.builtins.diagnostics.ruff.with({ extra_args = { "--max-line-length=180" } }),
 					nls.builtins.diagnostics.eslint_d.with({
 						only_local = "node_modules/.bin",
 					}),
+					-- nls.builtins.diagnostics.flake8,
+					nls.builtins.diagnostics.credo,
+
 					nls.builtins.code_actions.eslint_d.with({
 						only_local = "node_modules/.bin",
 					}),
