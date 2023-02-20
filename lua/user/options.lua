@@ -3,7 +3,7 @@ local options = {
 	backup = false, -- creates a backup file
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
 	cmdheight = 1, -- more space in the neovim command line for displaying messages
-	completeopt = { "menuone", "noselect" }, -- mostly just for cmp
+	completeopt = { "menu", "menuone", "noselect" }, -- mostly just for cmp
 	conceallevel = 0, -- so that `` is visible in markdown files
 	fileencoding = "utf-8", -- the encoding written to a file
 	hlsearch = true, -- highlight all matches on previous search pattern
@@ -41,34 +41,6 @@ local options = {
 for k, v in pairs(options) do
 	vim.opt[k] = v
 end
-
--- Disable some builtin vim plugins
--- local g = vim.g
---
--- local disabled_built_ins = {
--- 	"2html_plugin",
--- 	"getscript",
--- 	"getscriptPlugin",
--- 	"gzip",
--- 	"logipat",
--- 	"netrw",
--- 	"netrwPlugin",
--- 	"netrwSettings",
--- 	"netrwFileHandlers",
--- 	"matchit",
--- 	"matchparen",
--- 	"tar",
--- 	"tarPlugin",
--- 	"rrhelper",
--- 	"vimball",
--- 	"vimballPlugin",
--- 	"zip",
--- 	"zipPlugin",
--- }
---
--- for _, plugin in pairs(disabled_built_ins) do
--- 	g["loaded_" .. plugin] = 1
--- end
 
 vim.opt.fillchars.eob = " " -- show empty lines at the end of a buffer as ` ` {default `~`}
 vim.opt.shortmess:append("c") -- hide all the completion messages, e.g. "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found"

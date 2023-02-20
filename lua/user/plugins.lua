@@ -42,13 +42,13 @@ packer.startup(function(use)
 	use({ "nvim-lua/plenary.nvim" })
 	use({ "catppuccin/nvim", as = "catppuccin" })
 	-- use({ "ellisonleao/gruvbox.nvim" })
-	-- use({
-	-- 	"rose-pine/neovim",
-	-- 	as = "rose-pine",
-	-- 	config = function()
-	-- 		require("simen.colorscheme")
-	-- 	end,
-	-- })
+	use({
+		"rose-pine/neovim",
+		as = "rose-pine",
+		config = function()
+			require("user.colorscheme")
+		end,
+	})
 
 	-- Tabs
 	use({

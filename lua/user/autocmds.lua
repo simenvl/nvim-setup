@@ -49,11 +49,25 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+-- vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+-- 	callback = function()
+-- 		local line_count = vim.api.nvim_buf_line_count(0)
+-- 		if line_count >= 5000 then
+-- 			vim.cmd("IlluminatePauseBuf")
+-- 		end
+-- 	end,
+-- })
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd("FocusGained", { command = "checktime" })
+
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function()
-		local line_count = vim.api.nvim_buf_line_count(0)
-		if line_count >= 5000 then
-			vim.cmd("IlluminatePauseBuf")
+		local mark = vim.api.nvim_buf_get_mark(0, '"')
+		local lcount = vim.api.nvim_buf_line_count(0)
+		if mark[1] > 0 and mark[1] <= lcount then
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
 		end
 	end,
 })
