@@ -32,10 +32,10 @@ keymap("n", "<C-j>", "<C-\\><C-n><C-w>j")
 keymap("n", "<C-k>", "<C-\\><C-n><C-w>k")
 keymap("n", "<C-l>", "<C-\\><C-n><C-w>l")
 
-keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
-keymap("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
-keymap("n", "<leader>tn", ":tabn<CR>", opts) --  go to next tab
-keymap("n", "<leader>tp", ":tabp<CR>", opts) --  go to previous tab
+-- keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
+-- keymap("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
+-- keymap("n", "<leader>tn", ":tabn<CR>", opts) --  go to next tab
+-- keymap("n", "<leader>tp", ":tabp<CR>", opts) --  go to previous tab
 
 -- Plugin keymaps
 
@@ -82,8 +82,11 @@ keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
 keymap("n", "<A-j", ":m .+1<CR>==", opts)
 keymap("n", "<A-k>", ":m .-2<CR>==", opts)
 
--- nvim-test
-keymap("n", "<leader>jf", "<cmd>TestFile<cr>", opts) -- jest - test file
+-- testing
+keymap("n", "<leader>ts", ":lua require'neotest'.summary.toggle()<cr>", opts) -- jest - test file
+keymap("n", "<leader>tn", ":lua require'neotest'.run.run()<cr>", opts)
+keymap("n", "<leader>ta", ":lua require'neotest'.run.run(vim.fn.expand'%')<cr>", opts) -- jest - test file
+keymap("n", "<leader>to", ":lua require'neotest'.output.open({ enter = true })<cr>", opts)
 
 -- DAP
 keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
@@ -99,5 +102,20 @@ keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 -- Neogen
 keymap("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", opts)
 
--- copilot
--- keymap("i", "<C-f", "copilot#Accept<CR>", opts)
+-- Diagnostics
+keymap("n", "<leader>d", vim.diagnostic.open_float, opts)
+
+-- save in insert mode
+keymap("i", "<C-s>", "<cmd>:w<cr><esc>")
+keymap("n", "<C-s>", "<cmd>:w<cr><esc>")
+keymap("n", "<C-c>", "<cmd>normal ciw<cr>a")
+
+-- Trouble
+keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
+keymap("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
+keymap("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
+keymap("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
+keymap("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
+keymap("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
+
+-- Copilot

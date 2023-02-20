@@ -46,7 +46,7 @@ packer.startup(function(use)
 		"rose-pine/neovim",
 		as = "rose-pine",
 		config = function()
-			require("simen.colorscheme")
+			require("user.colorscheme")
 		end,
 	})
 
