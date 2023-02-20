@@ -4,7 +4,7 @@ local M = {
 
 function M.config()
 	require("toggleterm").setup({
-		size = 10,
+		size = 20,
 		open_mapping = [[<c-t>]],
 		hide_numbers = true,
 		shade_filetypes = {},
@@ -33,8 +33,8 @@ function M.config()
 		vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
 		vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
 		vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
-		vim.api.nvim_buf_set_keymap(0, "t", "<leader>2", "<cmd>2ToggleTerm<CR>", opts)
-		vim.api.nvim_buf_set_keymap(0, "t", "<leader>3", "<cmd>3ToggleTerm<CR>", opts)
+		vim.api.nvim_buf_set_keymap(0, "t", "<C-p>", "<cmd>2ToggleTerm<CR>", opts)
+		vim.api.nvim_buf_set_keymap(0, "t", "<C-å>", "<cmd>3ToggleTerm<CR>", opts)
 	end
 
 	vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
@@ -43,16 +43,17 @@ function M.config()
 	local lazygit = Terminal:new({
 		cmd = "lazygit",
 		hidden = true,
-		count = 5,
+		count = 99,
 		direction = "float",
 		-- function to run on opening the terminal
 		on_open = function(term)
 			vim.cmd("startinsert!")
+			vim.cmd("set laststatus=0")
 			vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
 		end,
 		-- function to run on closing the terminal
-		on_close = function(term)
-			vim.cmd("startinsert!")
+		on_close = function(_)
+			vim.cmd("set laststatus=3")
 		end,
 	})
 

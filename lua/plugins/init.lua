@@ -7,15 +7,9 @@ return {
 	"JoosepAlviste/nvim-ts-context-commentstring",
 	"nvim-telescope/telescope-project.nvim",
 	"moll/vim-bbye",
-	"kylechui/nvim-surround",
 	"aserowy/tmux.nvim",
 	"nvim-telescope/telescope-file-browser.nvim",
 
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		event = "VeryLazy",
-	},
 	{ "danymat/neogen", requires = "nvim-treesitter/nvim-treesitter" },
 	{
 		"windwp/nvim-autopairs",
@@ -52,7 +46,7 @@ return {
 	{
 		"numToStr/Comment.nvim",
 		config = function()
-			require("comment").setup({
+			require("Comment").setup({
 				pre_hook = function(ctx)
 					-- Only calculate commentstring for tsx filetypes
 					if vim.bo.filetype == "typescriptreact" then
@@ -75,6 +69,25 @@ return {
 						})
 					end
 				end,
+			})
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		requires = "nvim-tree/nvim-web-devicons",
+		config = function()
+			require("trouble").setup({
+				-- your configuration comes here
+				-- or leave it empty to use the default settings
+				-- refer to the configuration section below
+			})
+		end,
+	},
+	{
+		"kylechui/nvim-surround",
+		config = function()
+			require("nvim-surround").setup({
+				mappings_style = "surround",
 			})
 		end,
 	},

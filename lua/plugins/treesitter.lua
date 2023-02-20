@@ -44,7 +44,7 @@ return {
 					"latex",
 					"lua",
 					"markdown",
-					"markdown_inline",
+					-- "markdown_inline",
 					"meson",
 					"ninja",
 					"nix",
@@ -67,6 +67,7 @@ return {
 					"vue",
 					"wgsl",
 					"yaml",
+					"prisma",
 					-- "wgsl",
 					"json",
 				},
@@ -113,6 +114,9 @@ return {
 						goto_node = "<cr>",
 						show_help = "?",
 					},
+				},
+				autotag = {
+					enable = true,
 				},
 				textobjects = {
 					select = {

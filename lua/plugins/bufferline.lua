@@ -37,7 +37,7 @@ function M.config()
 			max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
 			tab_size = 21,
 			diagnostics = "nvim_lsp", -- | "nvim_lsp" | "coc",
-			diagnostics_update_in_insert = true,
+			-- diagnostics_update_in_insert = true,
 			--- count is an integer representing total count of errors
 			--- level is a string "error" | "warning"
 			--- this should return a string
