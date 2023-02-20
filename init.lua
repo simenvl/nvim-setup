@@ -1,7 +1,12 @@
 vim.g.mapleader = " " -- make sure to set `mapleader` before lazy so your mappings are correct
 
-require("simen.autocmds")
-require("simen.options")
-require("simen.keymaps")
-
+require("user.options")
 require("config.lazy")
+
+vim.api.nvim_create_autocmd("User", {
+	pattern = "VeryLazy",
+	callback = function()
+		require("user.autocmds")
+		require("user.keymaps")
+	end,
+})
