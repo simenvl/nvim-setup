@@ -1,5 +1,5 @@
 <h1 align="center"> 
-	dot-files ☕️
+	neovim - config ☕️
 </h1>
 
 
