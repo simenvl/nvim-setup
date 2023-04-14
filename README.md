@@ -1,9 +1,8 @@
 # Neovim config
 
-![Screenshot 2022-11-24 at 11 43 40](https://user-images.githubusercontent.com/24235164/203764640-637801b5-4d7d-4687-b612-8812a0c85840.png)
+<p align="center">
+<a href="https://github.com/simenvl/nvim-setup/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/simenvl/nvim-setup?colorA=363a4f&colorB=f5e0dc&logo=github&style=for-the-badge"></a>
+<a href="https://github.com/simenvl/nvim-setup/stargazers"><img alt="Stargazers" src="https://img.shields.io/github/stars/simenvl/nvim-setup?colorA=363a4f&colorB=eba0ac&logo=apachespark&logoColor=e0e0e0&style=for-the-badge"></a>
+<a><img src="https://img.shields.io/github/languages/code-size/simenvl/nvim-setup?colorA=363a4f&colorB=b4befe&logo=onlyoffice&style=for-the-badge"></a>
+</p>
 
-![Screenshot 2022-11-24 at 11 45 08](https://user-images.githubusercontent.com/24235164/203764840-13e71adc-d3cc-4b73-ad71-c8871f53a215.png)
-
-_Heavily_ influensed by:
-  - https://github.com/arturgoms/nvim
-  - https://github.com/josean-dev/dev-environment-files
