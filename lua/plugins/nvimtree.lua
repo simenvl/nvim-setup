@@ -1,59 +1,94 @@
 return {
 	"nvim-tree/nvim-tree.lua",
-	dependencies = {
-		"kyazdani42/nvim-web-devicons",
-	},
+	dependencies = "nvim-tree/nvim-web-devicons",
+	version = "*",
+	lazy = false,
 	config = function()
 		vim.g.loaded_netrw = 1
 		vim.g.loaded_netrwPlugin = 1
 
-		local nvimtree = require("nvim-tree")
-		nvimtree.setup({
+		require("nvim-tree").setup({
+			filters = {
+				dotfiles = false,
+				exclude = { vim.fn.stdpath("config") .. "/lua/custom" },
+			},
+			disable_netrw = true,
+			hijack_netrw = true,
+			hijack_cursor = true,
+			hijack_unnamed_buffer_when_opening = false,
+			sync_root_with_cwd = true,
+			update_focused_file = {
+				enable = true,
+				update_root = false,
+			},
+			view = {
+				adaptive_size = false,
+				side = "left",
+				width = 30,
+				hide_root_folder = true,
+			},
+			git = {
+				enable = false,
+				ignore = true,
+			},
+			filesystem_watchers = {
+				enable = true,
+			},
+			actions = {
+				open_file = {
+					resize_window = true,
+				},
+			},
 			renderer = {
-				group_empty = true,
+				highlight_git = false,
+				highlight_opened_files = "none",
 
-				highlight_opened_files = "all",
+				indent_markers = {
+					enable = false,
+				},
+
 				icons = {
-					webdev_colors = true,
+					show = {
+						file = true,
+						folder = true,
+						folder_arrow = true,
+						git = false,
+					},
+
 					glyphs = {
-						-- default = "",
-						-- symlink = "",
+						default = "",
+						symlink = "",
 						folder = {
+							default = "",
+							empty = "",
+							empty_open = "",
+							open = "",
+							symlink = "",
+							symlink_open = "",
 							arrow_open = "",
 							arrow_closed = "",
-							default = "",
-							open = "",
-							empty = "",
-							empty_open = "",
-							symlink = "",
-							symlink_open = "",
 						},
 						git = {
-							unstaged = "",
-							staged = "S",
-							unmerged = "",
+							unstaged = "✗",
+							staged = "✓",
+							unmerged = "",
 							renamed = "➜",
-							untracked = "U",
+							untracked = "★",
 							deleted = "",
 							ignored = "◌",
 						},
-					},
-				},
-				indent_markers = {
-					enable = true,
-					inline_arrows = true,
-					icons = {
-						corner = "└",
-						edge = "│",
-						item = "│",
-						bottom = "─",
-						none = " ",
 					},
 				},
 			},
 			diagnostics = {
 				enable = true,
 				show_on_dirs = true,
+				show_on_open_dirs = true,
+				debounce_delay = 50,
+				severity = {
+					min = vim.diagnostic.severity.HINT,
+					max = vim.diagnostic.severity.ERROR,
+				},
 				icons = {
 					hint = "",
 					info = "",
@@ -61,28 +96,25 @@ return {
 					error = "",
 				},
 			},
-			view = {
-				adaptive_size = true,
-				side = "left",
-				width = 25,
-				hide_root_folder = true,
-			},
-			update_focused_file = {
-				enable = true,
-				update_root = true,
-				ignore_list = {},
-			},
-
-			git = {
-				-- enbale = true,
-				ignore = false,
-			},
-
-			filters = {
-				dotfiles = false,
-			},
-
-			ignore_ft_on_setup = { "alpha" },
+			-- view = {
+			-- 	adaptive_size = true,
+			-- 	side = "left",
+			-- 	width = 25,
+			-- 	hide_root_folder = true,
+			-- },
+			-- update_focused_file = {
+			-- 	enable = true,
+			-- 	update_root = true,
+			-- 	ignore_list = {},
+			-- },
+			--
+			-- git = {
+			-- 	ignore = false,
+			-- },
+			--
+			-- filters = {
+			-- 	dotfiles = false,
+			-- },
 		})
 	end,
 }

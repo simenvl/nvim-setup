@@ -65,16 +65,7 @@ keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", { noremap = true, si
 -- Naviagate buffers
 keymap("n", "<C-n>", ":bnext<CR>", opts)
 keymap("n", "<C-p>", ":bprevious<CR>", opts)
-keymap("n", "<leader>q", "<Cmd>Bdelete<CR>", { silent = true })
-
--- Todo comments
-keymap("n", "<leader>tc", ":TodoTelescope<CR>", opts)
-keymap("n", "]t", function()
-	require("todo-comments").jump_next()
-end, { desc = "Next todo comment" })
-keymap("n", "[t", function()
-	require("todo-comments").jump_prev()
-end, { desc = "Previous todo comment" })
+keymap("n", "<leader>q", "<Cmd>Bdelete<CR>", opts)
 
 -- Move text up and down
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
@@ -100,7 +91,7 @@ keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 
 -- Neogen
-keymap("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", opts)
+keymap("n", "<leader>nf", ":lua require('neogen').generate()<CR>", opts)
 
 -- Diagnostics
 keymap("n", "<leader>d", vim.diagnostic.open_float, opts)
@@ -109,13 +100,3 @@ keymap("n", "<leader>d", vim.diagnostic.open_float, opts)
 keymap("i", "<C-s>", "<cmd>:w<cr><esc>")
 keymap("n", "<C-s>", "<cmd>:w<cr><esc>")
 keymap("n", "<C-c>", "<cmd>normal ciw<cr>a")
-
--- Trouble
-keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
-keymap("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
-keymap("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
-keymap("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
-keymap("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
-keymap("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
-
--- Copilot

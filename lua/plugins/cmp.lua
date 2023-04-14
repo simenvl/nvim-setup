@@ -7,11 +7,17 @@ local M = {
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-nvim-lua",
 		"L3MON4D3/LuaSnip",
+		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
 		"onsails/lspkind-nvim",
 		"hrsh7th/cmp-cmdline",
 		"dmitmel/cmp-cmdline-history",
 	},
+}
+
+local border_opts = {
+	border = "single",
+	winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
 }
 
 function M.config()
@@ -33,8 +39,8 @@ function M.config()
 			end,
 		},
 		window = {
-			-- completion = cmp.config.window.bordered({ border = "rounded" }),
-			-- documentation = cmp.config.window.bordered({ border = "rounded" }),
+			completion = cmp.config.window.bordered(border_opts),
+			documentation = cmp.config.window.bordered(border_opts),
 		},
 		mapping = cmp.mapping.preset.insert({
 			["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
@@ -49,7 +55,7 @@ function M.config()
 			-- disable completion in comments
 			local context = require("cmp.config.context")
 			-- keep command mode completion enabled when cursor is in a comment
-			if vim.api.nvim_get_mode().mode == "c" then
+			if vim.api.nvim_get_mode().mode == "c" and not vim.bo.buftype == "prompt" then
 				return true
 			else
 				return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")

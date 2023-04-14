@@ -23,10 +23,17 @@ require("lazy").setup({
 
 	-- checker = { enabled = true },
 	performance = {
+		cache = {
+			enabled = true,
+			-- disable_events = {},
+		},
 		rtp = {
-			-- disable some rtp plugins
 			disabled_plugins = {
 				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"rplugin",
 				"tarPlugin",
 				"tohtml",
 				"tutor",
