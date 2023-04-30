@@ -13,6 +13,7 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"b0o/schemastore.nvim",
+			-- "jose-elias-alvarez/typescript.nvim",
 		},
 		config = function(plugin)
 			require("plugins.lsp.servers").setup(plugin)
@@ -73,6 +74,7 @@ return {
 					nls.builtins.diagnostics.credo,
 
 					nls.builtins.code_actions.eslint_d,
+					-- require("typescript.extensions.null-ls.code-actions"),
 				},
 				root_dir = require("null-ls.utils").root_pattern("package.json", ".git"),
 			})
@@ -89,6 +91,26 @@ return {
 		config = function()
 			require("barbecue").setup({
 				theme = "catpuccin",
+			})
+		end,
+	},
+
+	-- inlay hints
+	{
+		"lvimuser/lsp-inlayhints.nvim",
+		event = "LspAttach",
+		opts = {},
+		config = function(_, opts)
+			require("lsp-inlayhints").setup(opts)
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("LspAttach_inlayhints", {}),
+				callback = function(args)
+					if not (args.data and args.data.client_id) then
+						return
+					end
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					require("lsp-inlayhints").on_attach(client, args.buf)
+				end,
 			})
 		end,
 	},

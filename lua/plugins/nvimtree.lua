@@ -25,7 +25,6 @@ return {
 				adaptive_size = false,
 				side = "left",
 				width = 30,
-				hide_root_folder = true,
 			},
 			git = {
 				enable = false,
@@ -42,6 +41,7 @@ return {
 			renderer = {
 				highlight_git = false,
 				highlight_opened_files = "none",
+				root_folder_label = false,
 
 				indent_markers = {
 					enable = false,

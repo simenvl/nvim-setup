@@ -36,6 +36,10 @@ local options = {
 	scrolloff = 8, -- minimal number of screen lines to keep above and below the cursor
 	sidescrolloff = 8, -- minimal number of screen columns to keep to the left and right of the cursor if wrap is `false`
 	foldenable = true, -- enable folding nvim-ufo
+	foldcolumn = "1", -- '0' is not bad
+	foldlevel = 99, -- Using ufo provider need a large value, feel free to decrease the value
+	foldlevelstart = 99,
+	fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
 	-- guifont = "monospace:h17", -- the font used in graphical neovim applications
 }
 

@@ -1,7 +1,5 @@
 local M = {}
 
-M.signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-
 function M.setup()
 	-- Automatically update diagnostics
 	vim.diagnostic.config({
@@ -19,7 +17,9 @@ function M.setup()
 		},
 	})
 
-	for type, icon in pairs(M.signs) do
+	local icons = require("config.icons").icons.diagnostics
+
+	for type, icon in pairs(icons) do
 		local hl = "DiagnosticSign" .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 	end

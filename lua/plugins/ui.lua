@@ -77,9 +77,11 @@ return {
 				diagnostics = "nvim_lsp",
 				diagnostics_update_in_insert = false,
 				-- always_show_bufferline = false,
-				diagnostics_indicator = function(count, level)
-					local icon = level:match("error") and " " or " "
-					return " " .. icon .. count
+				diagnostics_indicator = function(_, _, diag)
+					local icons = require("config.icons").icons.diagnostics
+					local ret = (diag.error and icons.Error .. diag.error .. " " or "")
+						.. (diag.warning and icons.Warn .. diag.warning or "")
+					return vim.trim(ret)
 				end,
 				offsets = {
 					{
@@ -106,6 +108,8 @@ return {
 				end
 			end
 
+			local icons = require("config.icons").icons
+
 			return {
 				options = {
 					theme = "auto",
@@ -130,12 +134,27 @@ return {
 					},
 					lualine_b = { "branch" },
 					lualine_c = {
-						{ "diagnostics" },
+						{
+							"diagnostics",
+							symbols = {
+								error = icons.diagnostics.Error,
+								warn = icons.diagnostics.Warn,
+								info = icons.diagnostics.Info,
+								hint = icons.diagnostics.Hint,
+							},
+						},
 						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
 						{ "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
 					},
 					lualine_x = {
-						{ "diff" },
+						{
+							"diff",
+							symbols = {
+								added = icons.git.added,
+								modified = icons.git.modified,
+								removed = icons.git.removed,
+							},
+						},
 					},
 					lualine_y = {
 						{ "progress", separator = " ", padding = { left = 1, right = 0 } },
@@ -225,28 +244,4 @@ return {
 
 	-- ui components
 	{ "MunifTanjim/nui.nvim", lazy = true },
-
-	{
-		"NvChad/nvim-colorizer.lua",
-		event = "BufReadPre",
-		opts = {
-			filetypes = { "*", "!lazy" },
-			buftype = { "*", "!prompt", "!nofile" },
-			user_default_options = {
-				RGB = true, -- #RGB hex codes
-				RRGGBB = true, -- #RRGGBB hex codes
-				names = false, -- "Name" codes like Blue
-				RRGGBBAA = true, -- #RRGGBBAA hex codes
-				AARRGGBB = false, -- 0xAARRGGBB hex codes
-				rgb_fn = true, -- CSS rgb() and rgba() functions
-				hsl_fn = true, -- CSS hsl() and hsla() functions
-				css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-				css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-				-- Available modes: foreground, background
-				-- Available modes for `mode`: foreground, background,  virtualtext
-				mode = "background", -- Set the display mode.
-				virtualtext = "■",
-			},
-		},
-	},
 }

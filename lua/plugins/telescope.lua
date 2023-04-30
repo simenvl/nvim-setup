@@ -7,6 +7,9 @@ return {
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
 		-- local fb_actions = require("telescope").extensions.file_browser.actions
+
+		vim.cmd("highlight! TelescopeBorder guibg=NONE guifg=#f6c177")
+
 		telescope.setup({
 			defaults = {
 				prompt_prefix = " ",
