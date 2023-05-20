@@ -53,36 +53,104 @@ return {
 				},
 			},
 		},
-    -- stylua: ignore
-    keys = {
-      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
-    },
+		keys = {
+			{
+				"<S-Enter>",
+				function()
+					require("noice").redirect(vim.fn.getcmdline())
+				end,
+				mode = "c",
+				desc = "Redirect Cmdline",
+			},
+			{
+				"<leader>snl",
+				function()
+					require("noice").cmd("last")
+				end,
+				desc = "Noice Last Message",
+			},
+			{
+				"<leader>snh",
+				function()
+					require("noice").cmd("history")
+				end,
+				desc = "Noice History",
+			},
+			{
+				"<leader>sna",
+				function()
+					require("noice").cmd("all")
+				end,
+				desc = "Noice All",
+			},
+			{
+				"<c-f>",
+				function()
+					if not require("noice.lsp").scroll(4) then
+						return "<c-f>"
+					end
+				end,
+				silent = true,
+				expr = true,
+				desc = "Scroll forward",
+				mode = {
+					"i",
+					"n",
+					"s",
+				},
+			},
+			{
+				"<c-b>",
+				function()
+					if not require("noice.lsp").scroll(-4) then
+						return "<c-b>"
+					end
+				end,
+				silent = true,
+				expr = true,
+				desc = "Scroll backward",
+				mode = {
+					"i",
+					"n",
+					"s",
+				},
+			},
+		},
 	},
 
 	-- bufferline
 	{
 		"akinsho/bufferline.nvim",
 		event = "VeryLazy",
+		-- dependencies = "nvim-tree/nvim-web-devicons",
+		version = "*",
 		-- keys = {
 		-- 	{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
 		-- 	{ "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
 		-- },
 		opts = {
 			options = {
+				separator_style = "thin",
+				show_tab_indicators = true,
+				color_icons = true,
+        -- stylua: ignore
+        close_command = function(n) require("mini.bufremove").delete(n, false) end,
+        -- stylua: ignore
+        right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
 				diagnostics = "nvim_lsp",
 				diagnostics_update_in_insert = false,
-				-- always_show_bufferline = false,
+				always_show_bufferline = false,
 				diagnostics_indicator = function(_, _, diag)
-					local icons = require("config.icons").icons.diagnostics
-					local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-						.. (diag.warning and icons.Warn .. diag.warning or "")
+					local icons = require("config.icons")
+					local ret = (diag.error and icons.diagnostics.Error .. diag.error .. " " or "")
+						.. (diag.warning and icons.diagnostics.Warn .. diag.warning or "")
 					return vim.trim(ret)
 				end,
+				hover = {
+					enabled = true,
+					delay = 200,
+					reveal = { "close" },
+				},
 				offsets = {
 					{
 						filetype = "NvimTree",
@@ -96,86 +164,86 @@ return {
 	},
 
 	-- statusline
-	{
-		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		opts = function(plugin)
-			local function fg(name)
-				return function()
-					---@type {foreground?:number}?
-					local hl = vim.api.nvim_get_hl_by_name(name, true)
-					return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
-				end
-			end
-
-			local icons = require("config.icons").icons
-
-			return {
-				options = {
-					theme = "auto",
-					globalstatus = true,
-					icons_enabled = true,
-					disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha", "NvimTree" } },
-					component_separators = "",
-					section_separators = {
-						left = "",
-						right = "",
-					},
-				},
-				sections = {
-					lualine_a = {
-						{
-							"mode",
-							separator = {
-								left = "",
-								right = "",
-							},
-						},
-					},
-					lualine_b = { "branch" },
-					lualine_c = {
-						{
-							"diagnostics",
-							symbols = {
-								error = icons.diagnostics.Error,
-								warn = icons.diagnostics.Warn,
-								info = icons.diagnostics.Info,
-								hint = icons.diagnostics.Hint,
-							},
-						},
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
-					},
-					lualine_x = {
-						{
-							"diff",
-							symbols = {
-								added = icons.git.added,
-								modified = icons.git.modified,
-								removed = icons.git.removed,
-							},
-						},
-					},
-					lualine_y = {
-						{ "progress", separator = " ", padding = { left = 1, right = 0 } },
-						{ "location", padding = { left = 0, right = 1 } },
-					},
-					lualine_z = {
-						{
-							function()
-								return " " .. os.date("%R")
-							end,
-							separator = {
-								left = "",
-								right = "",
-							},
-						},
-					},
-				},
-				extensions = { "nvim-tree", "toggleterm" },
-			}
-		end,
-	},
+	-- {
+	-- 	"nvim-lualine/lualine.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = function()
+	-- 		local icons = require("config.icons")
+	--
+	-- 		return {
+	-- 			options = {
+	-- 				theme = "auto",
+	-- 				globalstatus = true,
+	-- 				icons_enabled = true,
+	-- 				disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha", "NvimTree" } },
+	-- 				component_separators = "",
+	-- 				section_separators = {
+	-- 					left = "",
+	-- 					right = "",
+	-- 				},
+	-- 			},
+	-- 			sections = {
+	-- 				lualine_a = {
+	-- 					{
+	-- 						"mode",
+	-- 						separator = {
+	-- 							left = "",
+	-- 							right = "",
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 				lualine_b = { "branch" },
+	-- 				lualine_c = {
+	-- 					{
+	-- 						"diagnostics",
+	-- 						symbols = {
+	-- 							error = icons.diagnostics.Error,
+	-- 							warn = icons.diagnostics.Warn,
+	-- 							info = icons.diagnostics.Info,
+	-- 							hint = icons.diagnostics.Hint,
+	-- 						},
+	-- 					},
+	-- 					{
+	-- 						"filetype",
+	-- 						icon_only = true,
+	-- 						separator = "",
+	-- 						padding = {
+	-- 							left = 1,
+	-- 							right = 0,
+	-- 						},
+	-- 					},
+	-- 					{ "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+	-- 				},
+	-- 				lualine_x = {
+	-- 					{
+	-- 						"diff",
+	-- 						symbols = {
+	-- 							added = icons.git.added,
+	-- 							modified = icons.git.modified,
+	-- 							removed = icons.git.removed,
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 				lualine_y = {
+	-- 					{ "progress", separator = " ", padding = { left = 1, right = 0 } },
+	-- 					{ "location", padding = { left = 0, right = 1 } },
+	-- 				},
+	-- 				lualine_z = {
+	-- 					{
+	-- 						function()
+	-- 							return " " .. os.date("%R")
+	-- 						end,
+	-- 						separator = {
+	-- 							left = "",
+	-- 							right = "",
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 			extensions = { "nvim-tree", "toggleterm" },
+	-- 		}
+	-- 	end,
+	-- },
 
 	-- dashboard
 	{

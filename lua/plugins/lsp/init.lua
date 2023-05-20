@@ -12,11 +12,147 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"b0o/schemastore.nvim",
-			-- "jose-elias-alvarez/typescript.nvim",
+			{
+				"b0o/SchemaStore.nvim",
+				version = false, -- last release is way too old
+			},
 		},
-		config = function(plugin)
-			require("plugins.lsp.servers").setup(plugin)
+		opts = {
+			-- options for vim.diagnostic.config()
+			diagnostics = {
+				underline = true,
+				update_in_insert = false,
+				virtual_text = {
+					spacing = 4,
+					source = "if_many",
+					prefix = "●",
+					-- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+					-- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+					-- prefix = "icons",
+				},
+				severity_sort = true,
+			},
+			-- add any global capabilities here
+			capabilities = {},
+			-- Automatically format on save
+			autoformat = true,
+			-- options for vim.lsp.buf.format
+			-- `bufnr` and `filter` is handled by the LazyVim formatter,
+			-- but can be also overridden when specified
+			format = {
+				formatting_options = nil,
+				timeout_ms = nil,
+			},
+			servers = {
+				pyright = {
+					settings = {
+						python = {
+							analysis = {
+								typeCheckingMode = "off",
+								autoSearchPaths = true,
+								useLibraryCodeForTypes = true,
+								diagnosticMode = "workspace",
+							},
+						},
+					},
+				},
+				ansiblels = {},
+				elixirls = {},
+				astro = {},
+				bashls = {},
+				clangd = {},
+				cssls = {
+					settings = {
+						css = {
+							validate = true,
+							lint = {
+								unknownAtRules = "ignore",
+							},
+						},
+						scss = {
+							validate = true,
+							lint = {
+								unknownAtRules = "ignore",
+							},
+						},
+						less = {
+							validate = true,
+							lint = {
+								unknownAtRules = "ignore",
+							},
+						},
+					},
+				},
+				tsserver = {
+					settings = {
+						typescript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "literal",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = false,
+								includeInlayVariableTypeHints = false,
+								includeInlayPropertyDeclarationTypeHints = false,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+						javascript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+					},
+				},
+				svelte = {},
+				eslint = {
+					settings = {
+						workingDirectory = { mode = "auto" },
+					},
+				},
+				html = {},
+				lua_ls = {
+					settings = {
+						Lua = {
+							workspace = {
+								checkThirdParty = false,
+							},
+							completion = { callSnippet = "Replace" },
+							telemetry = { enable = false },
+							hint = {
+								enable = false,
+							},
+						},
+					},
+				},
+				dockerls = {},
+				vimls = {},
+				tailwindcss = {},
+				prismals = {},
+				marksman = {},
+			},
+			setup = {
+				lua_ls = function(_, _)
+					local lsp_utils = require("plugins.lsp.utils")
+					lsp_utils.on_attach(function(client, buffer)
+            -- stylua: ignore
+            if client.name == "lua_ls" then
+              vim.keymap.set("n", "<leader>dX", function() require("osv").run_this() end,
+                { buffer = buffer, desc = "OSV Run" })
+              vim.keymap.set("n", "<leader>dL", function() require("osv").launch({ port = 8086 }) end,
+                { buffer = buffer, desc = "OSV Launch" })
+            end
+					end)
+				end,
+			},
+		},
+		config = function(plugin, opts)
+			require("plugins.lsp.servers").setup(plugin, opts)
 		end,
 	},
 	{
@@ -33,34 +169,36 @@ return {
 				"flake8",
 				"prettierd",
 				"eslint_d",
-				"elixir_ls",
+				-- "elixir_ls",
 				"rustywind",
 				-- "pyright",
 				"dockerfile-language-server",
 			},
 		},
-		-- config = function(plugin)
-		-- 	require("mason").setup()
-		-- 	local mr = require("mason-registry")
-		-- 	for _, tool in ipairs(plugin.ensure_installed) do
-		-- 		local p = mr.get_package(tool)
-		-- 		if not p:is_installed() then
-		-- 			p:install()
-		-- 		end
-		-- 	end
-		-- end,
+		config = function(_, opts)
+			require("mason").setup()
+			local mr = require("mason-registry")
+			for _, tool in ipairs(opts.ensure_installed) do
+				local p = mr.get_package(tool)
+				if not p:is_installed() then
+					p:install()
+				end
+			end
+		end,
 	},
 	{
 		"jose-elias-alvarez/null-ls.nvim",
 		event = "BufReadPre",
 		dependencies = { "mason.nvim" },
-		config = function()
+		opts = function()
 			local nls = require("null-ls")
-			nls.setup({
+			return {
 				debounce = 150,
 				sources = {
 					nls.builtins.formatting.stylua,
-					nls.builtins.formatting.prettierd,
+					nls.builtins.formatting.prettierd.with({
+						extra_filetypes = { "svelte" },
+					}),
 					nls.builtins.formatting.rustywind,
 					nls.builtins.formatting.black,
 					nls.builtins.formatting.mix,
@@ -74,11 +212,15 @@ return {
 					nls.builtins.diagnostics.credo,
 
 					nls.builtins.code_actions.eslint_d,
-					-- require("typescript.extensions.null-ls.code-actions"),
 				},
 				root_dir = require("null-ls.utils").root_pattern("package.json", ".git"),
-			})
+			}
 		end,
+	},
+
+	{
+		"jay-babu/mason-null-ls.nvim",
+		opts = { ensure_installed = nil, automatic_installation = true, automatic_setup = false },
 	},
 
 	{
@@ -93,6 +235,16 @@ return {
 				theme = "catpuccin",
 			})
 		end,
+	},
+
+	{
+		"folke/trouble.nvim",
+		cmd = { "TroubleToggle", "Trouble" },
+		opts = { use_diagnostic_signs = true },
+		keys = {
+			{ "<leader>cd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics" },
+			{ "<leader>cD", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
+		},
 	},
 
 	-- inlay hints

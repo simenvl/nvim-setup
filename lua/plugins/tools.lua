@@ -1,23 +1,20 @@
 return {
 	-- markdown preview
+	-- install without yarn or npm
 	{
-		"toppair/peek.nvim",
-		build = "deno task --quiet build:fast",
-		keys = {
-			{
-				"<leader>op",
-				function()
-					local peek = require("peek")
-					if peek.is_open() then
-						peek.close()
-					else
-						peek.open()
-					end
-				end,
-				desc = "Peek (Markdown Preview)",
-			},
-		},
-		opts = { theme = "light" },
+		"iamcco/markdown-preview.nvim",
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	},
+
+	{
+		"iamcco/markdown-preview.nvim",
+		build = "cd app && npm install",
+		config = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
 	},
 
 	-- better diffing
@@ -25,7 +22,7 @@ return {
 		"sindrets/diffview.nvim",
 		cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
 		config = true,
-		keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+		keys = { { "<leader>dw", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
 	},
 
 	{
@@ -51,5 +48,83 @@ return {
 				tailwind = true,
 			},
 		},
+	},
+
+	--toggle term
+	{
+		"akinsho/toggleterm.nvim",
+		-- version = "*",
+		lazy = false,
+		keys = {
+			{ "<leader>0", "<Cmd>2ToggleTerm<Cr>", desc = "Terminal #2" },
+		},
+		opts = function()
+			function _G.set_terminal_keymaps()
+				local opts = { buffer = 0 }
+				vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+				vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
+				vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
+				vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
+				vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
+				vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
+				vim.keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
+			end
+
+			-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+			vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+
+			local Terminal = require("toggleterm.terminal").Terminal
+			local lazygit = Terminal:new({
+				cmd = "lazygit",
+				hidden = true,
+				count = 9,
+				dir = "git_dir",
+				direction = "float",
+				float_opts = {
+					border = "single",
+				},
+				on_open = function(term)
+					vim.cmd("startinsert!")
+					vim.api.nvim_buf_set_keymap(
+						term.bufnr,
+						"n",
+						"q",
+						"<cmd>close<CR>",
+						{ noremap = true, silent = true }
+					)
+				end,
+				-- function to run on closing the terminal
+				-- on_close = function(term)
+				-- 	vim.cmd("startinsert!")
+				-- end,
+			})
+
+			function _LAZYGIT_TOGGLE()
+				lazygit:toggle()
+			end
+
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>gg",
+				"<cmd>lua _LAZYGIT_TOGGLE()<CR>",
+				{ noremap = true, silent = true }
+			)
+
+			return {
+				size = 20,
+				open_mapping = [[<leader>tt]],
+				hide_numbers = true,
+				shade_filetypes = {},
+				shade_terminals = false,
+				shading_factor = 0.3,
+				start_in_insert = true,
+				persist_size = true,
+				direction = "horizontal",
+
+				float_opts = {
+					border = "curved",
+				},
+			}
+		end,
 	},
 }

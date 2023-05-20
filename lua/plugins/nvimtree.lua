@@ -6,6 +6,9 @@ return {
 	config = function()
 		vim.g.loaded_netrw = 1
 		vim.g.loaded_netrwPlugin = 1
+		vim.g.nvim_tree_git_hl = 1
+
+		local icons = require("config.icons")
 
 		require("nvim-tree").setup({
 			filters = {
@@ -13,10 +16,7 @@ return {
 				exclude = { vim.fn.stdpath("config") .. "/lua/custom" },
 			},
 			disable_netrw = true,
-			hijack_netrw = true,
 			hijack_cursor = true,
-			hijack_unnamed_buffer_when_opening = false,
-			sync_root_with_cwd = true,
 			update_focused_file = {
 				enable = true,
 				update_root = false,
@@ -24,11 +24,13 @@ return {
 			view = {
 				adaptive_size = false,
 				side = "left",
-				width = 30,
+				width = 35,
 			},
 			git = {
-				enable = false,
-				ignore = true,
+				ignore = false,
+			},
+			modified = {
+				enable = true,
 			},
 			filesystem_watchers = {
 				enable = true,
@@ -39,8 +41,8 @@ return {
 				},
 			},
 			renderer = {
-				highlight_git = false,
-				highlight_opened_files = "none",
+				highlight_git = true,
+				-- highlight_opened_files = "none",
 				root_folder_label = false,
 
 				indent_markers = {
@@ -52,7 +54,7 @@ return {
 						file = true,
 						folder = true,
 						folder_arrow = true,
-						git = false,
+						git = true,
 					},
 
 					glyphs = {
@@ -69,12 +71,12 @@ return {
 							arrow_closed = "",
 						},
 						git = {
-							unstaged = "✗",
-							staged = "✓",
+							unstaged = "",
+							staged = "",
 							unmerged = "",
 							renamed = "➜",
-							untracked = "★",
-							deleted = "",
+							untracked = "⏺",
+							deleted = "⏺",
 							ignored = "◌",
 						},
 					},
@@ -90,31 +92,12 @@ return {
 					max = vim.diagnostic.severity.ERROR,
 				},
 				icons = {
-					hint = "",
-					info = "",
-					warning = "",
-					error = "",
+					hint = icons.diagnostics.Hint,
+					info = icons.diagnostics.Info,
+					warning = icons.diagnostics.Warning,
+					error = icons.diagnostics.Error,
 				},
 			},
-			-- view = {
-			-- 	adaptive_size = true,
-			-- 	side = "left",
-			-- 	width = 25,
-			-- 	hide_root_folder = true,
-			-- },
-			-- update_focused_file = {
-			-- 	enable = true,
-			-- 	update_root = true,
-			-- 	ignore_list = {},
-			-- },
-			--
-			-- git = {
-			-- 	ignore = false,
-			-- },
-			--
-			-- filters = {
-			-- 	dotfiles = false,
-			-- },
 		})
 	end,
 }
