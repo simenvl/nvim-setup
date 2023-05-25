@@ -112,7 +112,7 @@ return {
 
 			return {
 				size = 20,
-				open_mapping = [[<leader>tt]],
+				open_mapping = [[<c-t>]],
 				hide_numbers = true,
 				shade_filetypes = {},
 				shade_terminals = false,

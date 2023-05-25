@@ -10,7 +10,7 @@ return {
 					theme = "auto",
 					globalstatus = true,
 					icons_enabled = true,
-					disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha", "NvimTree" } },
+					disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha", "NvimTree", "neo-tree" } },
 					component_separators = "",
 					section_separators = {
 						left = "",

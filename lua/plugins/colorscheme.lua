@@ -8,7 +8,7 @@ return {
 			return {
 				flavour = "mocha",
 
-				vim.cmd([[colorscheme catppuccin]]),
+				-- vim.cmd([[colorscheme catppuccin]]),
 			}
 		end,
 	},
@@ -28,6 +28,8 @@ return {
 					hl.LineNrBelow = { fg = c.fg_gutter }
 				end,
 			})
+
+			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
 	{

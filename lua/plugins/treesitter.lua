@@ -25,6 +25,9 @@ return {
 					end
 				end,
 			},
+			{
+				"JoosepAlviste/nvim-ts-context-commentstring",
+			},
 		},
 		keys = {
 			{ "<c-space>", desc = "Increment selection" },

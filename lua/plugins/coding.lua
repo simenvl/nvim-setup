@@ -31,7 +31,7 @@ return {
 	{ "github/copilot.vim", lazy = false },
 
 	{ "windwp/nvim-ts-autotag", config = true },
-	{ "danymat/neogen", config = true },
+	{ "danymat/neogen", event = "BufReadPre", config = true },
 
 	{
 		"windwp/nvim-autopairs",
@@ -66,15 +66,31 @@ return {
 		end,
 	},
 
+	-- comments
 	{
-		"numToStr/Comment.nvim",
-		lazy = false,
+		"echasnovski/mini.comment",
+		event = "VeryLazy",
+		version = "*",
 		config = function()
-			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+			require("mini.comment").setup({
+				hooks = {
+					pre = function()
+						require("ts_context_commentstring.internal").update_commentstring()
+					end,
+				},
 			})
 		end,
 	},
+
+	-- {
+	-- 	"numToStr/Comment.nvim",
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		require("Comment").setup({
+	-- 			pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+	-- 		})
+	-- 	end,
+	-- },
 
 	{
 		"kylechui/nvim-surround",

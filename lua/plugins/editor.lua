@@ -30,6 +30,7 @@ return {
 	-- git signs
 	{
 		"lewis6991/gitsigns.nvim",
+		event = { "BufReadPost", "BufNewFile" },
 		config = true,
 		opts = {
 			signs = {
@@ -108,7 +109,7 @@ return {
 
 	{
 		"kevinhwang91/nvim-ufo",
-		event = "BufRead",
+		event = "BufReadPre",
 		dependencies = {
 			"kevinhwang91/promise-async",
 			"neovim/nvim-lspconfig",
