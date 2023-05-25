@@ -11,7 +11,6 @@ local opts = { noremap = true, silent = true }
 
 -- use jk to exit insert mode
 keymap("i", "jk", "<ESC>", opts)
-keymap("t", "jk", "<C-\\><C-n>")
 
 -- clear search highlights
 keymap("n", "<leader>nh", ":nohl<CR>", opts)
