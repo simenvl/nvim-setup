@@ -1,13 +1,13 @@
 local keymap = vim.keymap.set
-local opts = { silent = true }
+local opts = { noremap = true, silent = true }
 
 ---------------------
 -- General Keymaps
 ---------------------
 
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
+-- keymap("", "<Space>", "<Nop>", opts)
+-- vim.g.mapleader = " "
 
 -- use jk to exit insert mode
 keymap("i", "jk", "<ESC>", opts)
@@ -16,11 +16,23 @@ keymap("i", "jk", "<ESC>", opts)
 keymap("n", "<leader>nh", ":nohl<CR>", opts)
 
 -- delete single character without copying into register
-keymap("n", "x", '"_x')
+-- keymap("n", "x", '"_x', opts)
 
 -- increment/decrement numbers
 keymap("n", "<leader>+", "<C-a>", opts) -- increment
 keymap("n", "<leader>-", "<C-x>", opts) -- decrement
+
+-- Remap for dealing with word wrap
+keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
+keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
+
+-- Scrolling
+keymap("n", "<C-d>", "<C-d>zz")
+keymap("n", "<C-u>", "<C-u>zz")
+
+-- Better indent
+keymap("v", "<", "<gv")
+keymap("v", ">", ">gv")
 
 -- window management
 keymap("n", "<leader>sv", "<C-w>v", opts) -- split window vertically
@@ -32,61 +44,42 @@ keymap("n", "<C-j>", "<C-\\><C-n><C-w>j")
 keymap("n", "<C-k>", "<C-\\><C-n><C-w>k")
 keymap("n", "<C-l>", "<C-\\><C-n><C-w>l")
 
--- keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
--- keymap("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
--- keymap("n", "<leader>tn", ":tabn<CR>", opts) --  go to next tab
--- keymap("n", "<leader>tp", ":tabp<CR>", opts) --  go to previous tab
+-- Resize window using <shift> arrow keys
+keymap("n", "<S-Up>", "<cmd>resize +2<CR>")
+keymap("n", "<S-Down>", "<cmd>resize -2<CR>")
+keymap("n", "<S-Left>", "<cmd>vertical resize -2<CR>")
+keymap("n", "<S-Right>", "<cmd>vertical resize +2<CR>")
+
+keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
+keymap("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
+keymap("n", "<leader>tn", ":tabn<CR>", opts) --  go to next tab
+keymap("n", "<leader>tp", ":tabp<CR>", opts) --  go to previous tab
 
 -- Plugin keymaps
 
 -- Vim-maximizer
 keymap("n", "<leader>sm", ":MaximizerToggle<CR>", opts)
 
--- nvim-tree
-keymap("n", "<leader>e", ":NvimTreeFocus<Cr>", opts)
-keymap("n", "<leader>t", ":NvimTreeToggle<Cr>", opts)
-
--- telescope
-keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts) -- find files within current working directory, respects .gitignore
-keymap("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", opts) -- find string in current working directory as you type
-keymap("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", opts) -- find string under cursor in current working directory
-keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts) -- list open buffers in current neovim instance
-keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts) -- list available help tags
-
--- telescope git commands (not on youtube nvim video)
-keymap("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", opts) -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-keymap("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>", opts) -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-keymap("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", opts) -- list git branches (use <cr> to checkout) ["gb" for git branch--[[ ] ]]
-keymap("n", "<leader>gs", "<cmd>Telescope git_status<cr>", opts) -- list current changes per file with diff preview ["gs" for git status]
-
--- lazygit
-keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", { noremap = true, silent = true })
-
 -- Naviagate buffers
 keymap("n", "<C-n>", ":bnext<CR>", opts)
 keymap("n", "<C-p>", ":bprevious<CR>", opts)
-keymap("n", "<leader>q", "<Cmd>Bdelete<CR>", { silent = true })
-
--- Todo comments
-keymap("n", "<leader>tc", ":TodoTelescope<CR>", opts)
-keymap("n", "]t", function()
-	require("todo-comments").jump_next()
-end, { desc = "Next todo comment" })
-keymap("n", "[t", function()
-	require("todo-comments").jump_prev()
-end, { desc = "Previous todo comment" })
 
 -- Move text up and down
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
-keymap("n", "<A-j", ":m .+1<CR>==", opts)
-keymap("n", "<A-k>", ":m .-2<CR>==", opts)
+-- Move Lines
+keymap("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+keymap("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+keymap("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+keymap("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+keymap("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+keymap("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- testing
-keymap("n", "<leader>ts", ":lua require'neotest'.summary.toggle()<cr>", opts) -- jest - test file
-keymap("n", "<leader>tn", ":lua require'neotest'.run.run()<cr>", opts)
-keymap("n", "<leader>ta", ":lua require'neotest'.run.run(vim.fn.expand'%')<cr>", opts) -- jest - test file
-keymap("n", "<leader>to", ":lua require'neotest'.output.open({ enter = true })<cr>", opts)
+keymap("n", "<leader>nto", ":lua require'neotest'.summary.toggle()<cr>", opts) -- jest - test file
+keymap("n", "<leader>ntn", ":lua require'neotest'.run.run()<cr>", opts)
+keymap("n", "<leader>nta", ":lua require'neotest'.run.run(vim.fn.expand'%')<cr>", opts) -- jest - test file
+keymap("n", "<leader>nto", ":lua require'neotest'.output.open({ enter = true })<cr>", opts)
 
 -- DAP
 keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
@@ -100,7 +93,7 @@ keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 
 -- Neogen
-keymap("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", opts)
+keymap("n", "<leader>nf", ":lua require('neogen').generate()<CR>", opts)
 
 -- Diagnostics
 keymap("n", "<leader>d", vim.diagnostic.open_float, opts)
@@ -110,12 +103,11 @@ keymap("i", "<C-s>", "<cmd>:w<cr><esc>")
 keymap("n", "<C-s>", "<cmd>:w<cr><esc>")
 keymap("n", "<C-c>", "<cmd>normal ciw<cr>a")
 
--- Trouble
-keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
-keymap("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
-keymap("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
-keymap("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", opts)
-keymap("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
-keymap("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", opts)
-
--- Copilot
+-- Auto indent
+keymap("n", "i", function()
+	if #vim.fn.getline(".") == 0 then
+		return [["_cc]]
+	else
+		return "i"
+	end
+end, { expr = true })

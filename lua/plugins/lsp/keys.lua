@@ -5,7 +5,7 @@ function M.on_attach(client, buffer)
 
 	self:map("gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
 	self:map("gr", vim.lsp.buf.references, { desc = "References" })
-	-- self:map("gr", "Telescope lsp_references", { desc = "References" })
+	-- self:map("<leader>gr", "Telescope lsp_references", { desc = "References" })
 	self:map("gD", "Telescope lsp_declarations", { desc = "Goto Declaration" })
 	self:map("gI", "Telescope lsp_implementations", { desc = "Goto Implementation" })
 	self:map("gb", "Telescope lsp_type_definitions", { desc = "Goto Type Definition" })
