@@ -1,36 +1,44 @@
 return {
-	-- {
-	-- 	"zbirenbaum/copilot.lua",
-	-- 	cmd = "Copilot",
-	-- 	build = ":Copilot auth",
-	-- 	event = "InsertEnter",
-	-- 	config = function()
-	-- 		require("copilot").setup({
-	-- 			panel = {
-	-- 				enabled = true,
-	-- 				auto_refresh = true,
-	-- 				layout = {
-	-- 					position = "right", -- | top | left | right
-	-- 					ratio = 0.4,
-	-- 				},
-	-- 			},
-	-- 			suggestion = {
-	-- 				enabled = true,
-	-- 				keymap = {
-	-- 					accept = "<C-y>",
-	-- 					accept_word = false,
-	-- 					accept_line = false,
-	-- 					next = "<]]>",
-	-- 					prev = "<[[>",
-	-- 					dismiss = "<C-]>",
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-	{ "github/copilot.vim", lazy = false },
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		opts = {
+			panel = {
+				keymap = {
+					open = "<A-o>",
+					"<cmd>",
+				},
+				layout = {
+					position = "right", -- | top | left | right
+					ratio = 0.4,
+				},
+			},
+			suggestion = {
+				auto_trigger = true,
+				keymap = {
+					accept = "<Tab>",
+					accept_word = false,
+					accept_line = false,
+					next = "<M-]>",
+					prev = "<M-[>",
+					dismiss = "<C-]>",
+				},
+				iletypes = {
+					yaml = true,
+				},
+				markdown = true,
+			},
+		},
+	},
+	-- { "github/copilot.vim", lazy = false },
 
-	{ "windwp/nvim-ts-autotag", config = true },
+	{ "windwp/nvim-ts-autotag", event = "InsertEnter", opts = {
+		autotag = {
+			enable = true,
+		},
+	} },
+
 	{ "danymat/neogen", event = "BufReadPre", config = true },
 
 	{
@@ -71,15 +79,14 @@ return {
 		"echasnovski/mini.comment",
 		event = "VeryLazy",
 		version = "*",
-		config = function()
-			require("mini.comment").setup({
-				hooks = {
-					pre = function()
-						require("ts_context_commentstring.internal").update_commentstring()
-					end,
-				},
-			})
-		end,
+		opts = {
+			options = {
+				custom_commentstring = function()
+					return require("ts_context_commentstring.internal").calculate_commentstring()
+						or vim.bo.commentstring
+				end,
+			},
+		},
 	},
 
 	-- {
@@ -112,6 +119,7 @@ return {
 			"marilari88/neotest-vitest",
 			"haydenmeade/neotest-jest",
 		},
+		event = "BufRead",
 		config = function()
 			require("neotest").setup({
 				adapters = {

@@ -307,6 +307,29 @@ return {
 		end,
 	},
 
+	{
+		"rcarriga/nvim-notify",
+		event = "VimEnter",
+		config = function()
+			vim.notify = require("notify")
+			local icons = require("config.icons")
+			local notify = require("notify")
+
+			notify.setup({
+				stages = "fade",
+				render = "compact",
+				timeout = 5000,
+				icons = {
+					ERROR = icons.diagnostics.Error,
+					WARN = icons.diagnostics.Warn,
+					INFO = icons.diagnostics.Info,
+					DEBUG = icons.diagnostics.Hint,
+					TRACE = icons.diagnostics.Hint,
+				},
+			})
+		end,
+	},
+
 	-- icons
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 

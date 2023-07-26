@@ -3,10 +3,10 @@ local function augroup(name)
 end
 
 -- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-	group = augroup("checktime"),
-	command = "checktime",
-})
+-- vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+-- 	group = augroup("checktime"),
+-- 	command = "checktime",
+-- })
 
 -- -- show line diagnostics
 vim.api.nvim_create_autocmd("CursorHold", {
@@ -43,11 +43,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- 	end,
 -- })
 
-vim.api.nvim_create_autocmd({ "VimResized" }, {
-	callback = function()
-		vim.cmd("tabdo wincmd =")
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "VimResized" }, {
+-- 	callback = function()
+-- 		vim.cmd("tabdo wincmd =")
+-- 	end,
+-- })
 
 -- windows to close
 vim.api.nvim_create_autocmd("FileType", {

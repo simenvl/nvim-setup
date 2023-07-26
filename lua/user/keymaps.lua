@@ -16,7 +16,7 @@ keymap("i", "jk", "<ESC>", opts)
 keymap("n", "<leader>nh", ":nohl<CR>", opts)
 
 -- delete single character without copying into register
-keymap("n", "x", '"_x', opts)
+-- keymap("n", "x", '"_x', opts)
 
 -- increment/decrement numbers
 keymap("n", "<leader>+", "<C-a>", opts) -- increment
@@ -67,8 +67,13 @@ keymap("n", "<C-p>", ":bprevious<CR>", opts)
 -- Move text up and down
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
-keymap("n", "<A-j", ":m .+1<CR>==", opts)
-keymap("n", "<A-k>", ":m .-2<CR>==", opts)
+-- Move Lines
+keymap("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+keymap("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+keymap("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+keymap("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+keymap("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+keymap("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- testing
 keymap("n", "<leader>nto", ":lua require'neotest'.summary.toggle()<cr>", opts) -- jest - test file

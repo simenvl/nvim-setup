@@ -34,20 +34,12 @@ return {
 	},
 	{
 		"rose-pine/neovim",
+		lazy = false,
 		name = "rose-pine",
-		opts = function()
-			return {
-				variants = { "dawn" },
-				highlight_groups = {
-					ColorColumn = { bg = "rose" },
+		priority = 1000, -- make sure to load this before all the other start plugins
 
-					-- Blend colours against the "base" background
-					CursorLine = { bg = "foam", blend = 10 },
-					StatusLine = { fg = "love", bg = "love", blend = 10 },
-				},
-
-				-- vim.cmd([[colorscheme rose-pine]]),
-			}
+		config = function()
+			-- vim.cmd([[colorscheme rose-pine]])
 		end,
 	},
 }

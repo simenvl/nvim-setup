@@ -14,6 +14,8 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "jose-elias-alvarez/typescript.nvim" },
+		-- dependencies = { "pmizio/typescript-tools.nvim" },
+
 		opts = {
 			-- make sure mason installs the server
 			servers = {
