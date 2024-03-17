@@ -1,12 +1,38 @@
 return {
   {
-    "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
+    "luukvbaal/statuscol.nvim",
     config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
+      -- local builtin = require("statuscol.builtin")
+      require("statuscol").setup({
+        -- configuration goes here, for example:
+        -- relculright = true,
+        -- segments = {
+        --   { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+        --   {
+        --     sign = { name = { "Diagnostic" }, maxwidth = 2, auto = true },
+        --     click = "v:lua.ScSa"
+        --   },
+        --   { text = { builtin.lnumfunc }, click = "v:lua.ScLa", },
+        --   {
+        --     sign = { name = { ".*" }, maxwidth = 2, colwidth = 1, auto = true, wrap = true },
+        --     click = "v:lua.ScSa"
+        --   },
+        -- }
       })
+    end,
+  },
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    -- Optional dependency
+    dependencies = { "hrsh7th/nvim-cmp" },
+    config = function()
+      require("nvim-autopairs").setup({})
+      -- If you want to automatically add `(` after selecting a function or method
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      local cmp = require("cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   },
 
@@ -16,28 +42,20 @@ return {
     opts = {
       mappings = {
         -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
-        left = "<A-S-h>",
-        right = "<A-S-l>",
-        down = "<A-S-j>",
-        up = "<A-S-k>",
+        left = "<A-h>",
+        right = "<A-l>",
+        down = "<A-j>",
+        up = "<A-k>",
 
         -- Move current line in Normal mode
-        line_left = "<A-S-h>",
-        line_right = "<A-S-l>",
-        line_down = "<A-S-j>",
-        line_up = "<A-S-k>",
+        line_left = "<A-h>",
+        line_right = "<A-l>",
+        line_down = "<A-j>",
+        line_up = "<A-k>",
       },
     },
   },
 
-  -- {
-  --   "altermo/ultimate-autopair.nvim",
-  --   event = { "InsertEnter", "CmdlineEnter" },
-  --   branch = "v0.6", --recomended as each new version will have breaking changes
-  --   opts = {
-  --     --Config goes here
-  --   },
-  -- },
   {
     "telescope.nvim",
     dependencies = {
@@ -59,11 +77,22 @@ return {
 
   {
     "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
+    dependencies = { "hrsh7th/cmp-emoji", "phenax/cmp-graphql" },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local cmp = require("cmp")
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "graphql" } }))
+
+      -- opts.window = {
+      --   documentation = cmp_window.bordered({
+      --     winhighlight = "FloatBorder:CmpPmenu",
+      --
+      --   }),
+      --   completion = cmp_window.bordered({
+      --     winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenu,CursorLine:CmpPmenuSel,Search:None",
+      --   }),
+      -- }
     end,
   },
 
@@ -92,15 +121,5 @@ return {
     ft = "markdown",
     -- build = "cd app && yarn install",
     build = ":call mkdp#util#install()",
-  },
-
-  {
-    "NvChad/nvim-colorizer.lua",
-    event = "VeryLazy",
-    opts = {
-      user_default_options = {
-        tailwind = true,
-      },
-    },
   },
 }
