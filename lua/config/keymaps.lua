@@ -22,16 +22,3 @@ end
 local opts = { noremap = true, silent = true }
 
 map("i", "jk", "<Esc>", opts)
-
--- NeoGen
-map(
-  "n",
-  "<Leader>ng",
-  ":lua require('neogen').generate()<CR>",
-  { noremap = true, silent = true, desc = "[NeoGen] - generate documentation" }
-)
-map("n", "<Leader>nf", ":lua require('neogen').generate({ type = 'func' })<CR>", {
-  noremap = true,
-  silent = true,
-  desc = "[NeoGen] - generate function documentation",
-})
