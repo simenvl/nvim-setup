@@ -24,11 +24,21 @@ return {
       },
     },
   },
+  { "dasupradyumna/midnight.nvim", lazy = false, priority = 1000 },
+
+  {
+    "catppuccin/nvim",
+    lazy = true,
+    name = "catppuccin",
+    opts = {
+      transparent_background = true,
+    },
+  },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-moon",
+      colorscheme = "catppuccin-mocha",
     },
   },
 }

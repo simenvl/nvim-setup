@@ -4,15 +4,19 @@
     "lazyvim.plugins.extras.coding.copilot-chat",
     "lazyvim.plugins.extras.coding.luasnip",
     "lazyvim.plugins.extras.coding.mini-surround",
+    "lazyvim.plugins.extras.coding.neogen",
     "lazyvim.plugins.extras.coding.yanky",
     "lazyvim.plugins.extras.dap.core",
     "lazyvim.plugins.extras.dap.nlua",
+    "lazyvim.plugins.extras.editor.inc-rename",
     "lazyvim.plugins.extras.editor.refactoring",
     "lazyvim.plugins.extras.formatting.prettier",
-    "lazyvim.plugins.extras.lang.astro",
     "lazyvim.plugins.extras.lang.docker",
+    "lazyvim.plugins.extras.lang.git",
     "lazyvim.plugins.extras.lang.json",
     "lazyvim.plugins.extras.lang.markdown",
+    "lazyvim.plugins.extras.lang.python",
+    "lazyvim.plugins.extras.lang.sql",
     "lazyvim.plugins.extras.lang.tailwind",
     "lazyvim.plugins.extras.lang.terraform",
     "lazyvim.plugins.extras.lang.toml",
@@ -29,7 +33,7 @@
     "plugins.extras.lang.typescript"
   ],
   "news": {
-    "NEWS.md": "5204"
+    "NEWS.md": "5950"
   },
   "version": 6
 }
